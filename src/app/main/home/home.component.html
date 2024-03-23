@@ -1,0 +1,127 @@
+<!-- <div class="frame">
+<div class="title-part">
+  <div style="position: absolute; top: 4%; left: 10%;">
+  <h1>Hi Owner</h1>
+  <h3>bla bla bla</h3>
+</div>
+</div>
+
+<div class="car-container" style="padding-right: 30px;">
+  
+ 
+
+  <div class="cards" *ngFor="let item of vehicleList">
+  
+    <div class="card " style="height: 46%;">
+      <div class="card__img">
+      <img *ngIf="item.image" style="min-width: 100%; height: 100%; border-radius: 6%;" src="{{item.image}}" alt="">
+      <img *ngIf="!item.image" style="min-width: 100%; height: 100%; border-radius: 6%;" src="https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png" alt="">
+      </div>
+      <div class="card__wrapper">
+      <div class="card__subtitle">{{item.name}}</div>
+      <div class="card__subtitle-four">Availability</div>
+      </div>
+      <div class="card__subtitle-two">{{item.model}}</div>
+      <div class="card__subtitle-three">{{item.color}}</div>
+      <div class="card__wrapper">
+          <div class="card__title">{{item.number}}</div>
+          <div class="card__icon"><svg color="rgb(224, 223, 220)" style="user-select: none; width: 100%; height: 100%; display: inline-block; fill: rgb(224, 223, 220); flex-shrink: 0; cursor: auto;" viewBox="0 0 256 256" (click)="view(item.number)" xmlns="http://www.w3.org/2000/svg"><g color="rgb(224, 223, 220)"><circle opacity="0.2" r="96" cy="128" cx="128"></circle><circle stroke-width="16" stroke-miterlimit="10" stroke="rgb(224, 223, 220)" fill="none" r="96" cy="128" cx="128"></circle><polyline stroke-width="16" stroke-linejoin="round" stroke-linecap="round" stroke="rgb(224, 223, 220)" fill="none" points="134.1 161.9 168 128 134.1 94.1"></polyline><line stroke-width="16" stroke-linejoin="round" stroke-linecap="round" stroke="rgb(224, 223, 220)" fill="none" y2="128" x2="168" y1="128" x1="88"></line></g></svg></div>
+      </div>
+  </div>
+  </div>
+
+  
+   
+
+
+</div>
+<div class="navigators">
+  <div style="display: flex; justify-content: center; height: 20%; ">
+    <div style="flex: 3; height: 100%; background-color: rgb(136 120 100); margin: 10px; border-radius: 6px; display: flex; flex-direction: column; justify-content: center; align-items: center;" (click)="navigateTovehicles()">
+      <div class="card__subtitle" (click)="navigateTovehicles()">View My Vehicles</div>
+    </div>
+    <div style="flex: 2; height: 100%; background-color: rgb(89 122 101); margin: 10px; border-radius: 6px; display: flex; flex-direction: column; justify-content: center; align-items: center;" (click)="navigateToBooking()">
+      <div class="card__subtitle" (click)="navigateToBooking()">New Booking</div>
+    </div>
+    
+  </div>
+  <div style="display: flex; justify-content: center; height: 20%; margin-top: 10px; ">
+    <div style="flex: 2; height: 100%; background-color: rgb(234, 221, 204); margin: 10px; border-radius: 16px;"></div>
+    <div style="flex: 2; height: 100%; background-color: rgb(216, 203, 186); margin: 10px; border-radius: 6px;"></div>
+    <div style="flex: 3; height: 100%; background-color: rgb(210, 237, 208); margin: 10px; border-radius: 6px;"></div>
+  </div>
+</div>
+</div> -->
+
+
+<div class="frame">
+  <div class="title-part">
+    <div style="position: absolute; top: 2%; left: 8%;">
+    <h1 style=" font-size: 18px; " class="owner-greating">Hi, Owner</h1>
+    <h3 style=" font-size: 14px ; color: rgb(93, 92, 92); margin-top: 0px; font-weight: 600;">Hope you doing well</h3>
+  </div>
+  </div>
+  <h1 style=" font-size: 16px ;  font-weight: 600; padding-left: 20px;" class="owner-greating"> Manage cars & orders</h1>
+  <div class="button-container" style="padding-right: 10px;">
+
+      <div style="width: 500px; height: 78%; background-color: rgb(122, 121, 204,1); margin: 4px; border-radius: 6px; display: flex; flex-direction: column; justify-content: center; align-items: center;" (click)="navigateTovehicles()">
+        <div class="button-text " style="width: 160px; padding-left: 10px; color: white;" (click)="navigateTovehicles()">View My Vehicles</div>
+      </div>
+      <div style="width: 500px; height: 78%; background-color: rgb(133, 177, 188,1); margin: 4px; border-radius: 6px; display: flex; flex-direction: column; justify-content: center; align-items: center;" (click)="navigateToBooking()">
+        <div class="button-text " style="width: 140px; padding-left: 10px; color: white;" (click)="navigateToBooking()">New Booking</div>
+      </div>
+      <div style="width: 500px; height: 78%; background-color: rgb(72, 72, 72,1); margin: 4px; border-radius: 6px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <div class="button-text " style="width: 140px; padding-left: 10px; color: white;">Comming soon</div>
+      </div>
+      <div style="width: 500px; height: 78%; background-color: rgb(72, 72, 72,1); margin: 4px; border-radius: 6px; display: flex; flex-direction: column; justify-content: center; align-items: center;" >
+        <div class="button-text " style="width: 140px; padding-left: 10px; color: white;">Comming soon</div>
+      </div>
+      <!-- <div class="card " style="height: 46%;">
+        <div class="card__img">
+        <img *ngIf="item.image" style="min-width: 100%; height: 100%; border-radius: 6%;" src="{{item.image}}" alt="">
+        <img *ngIf="!item.image" style="min-width: 100%; height: 100%; border-radius: 6%;" src="https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png" alt="">
+        </div>
+        <div class="card__wrapper">
+        <div class="card__subtitle">{{item.name}}</div> -->
+        <!-- <div class="card__subtitle-four">Availability</div>
+        </div>
+        <div class="card__subtitle-two">{{item.model}}</div>
+        <div class="card__subtitle-three">{{item.color}}</div>
+        <div class="card__wrapper">
+            <div class="card__title">{{item.number}}</div>
+            <div class="card__icon"><svg color="rgb(224, 223, 220)" style="user-select: none; width: 100%; height: 100%; display: inline-block; fill: rgb(224, 223, 220); flex-shrink: 0; cursor: auto;" viewBox="0 0 256 256" (click)="view(item.number)" xmlns="http://www.w3.org/2000/svg"><g color="rgb(224, 223, 220)"><circle opacity="0.2" r="96" cy="128" cx="128"></circle><circle stroke-width="16" stroke-miterlimit="10" stroke="rgb(224, 223, 220)" fill="none" r="96" cy="128" cx="128"></circle><polyline stroke-width="16" stroke-linejoin="round" stroke-linecap="round" stroke="rgb(224, 223, 220)" fill="none" points="134.1 161.9 168 128 134.1 94.1"></polyline><line stroke-width="16" stroke-linejoin="round" stroke-linecap="round" stroke="rgb(224, 223, 220)" fill="none" y2="128" x2="168" y1="128" x1="88"></line></g></svg></div>
+        </div>
+    </div> -->
+    <!-- </div> -->
+  
+
+  </div>
+  <div *ngIf="vehicleList.length === 0">
+    <h1 style="text-align: center; margin-top: 20vh; color: rgb(53, 50, 50);">No vehicles found (:</h1>
+  </div>
+     
+  <div class="car-container" style="padding-right: 30px;">
+  
+ 
+
+    <div class="cards" *ngFor="let item of vehicleList">
+    
+      <div class="card " style="height: 64%;">
+        <!-- <div class="card__img">
+        <img *ngIf="item.image" style="min-width: 100%; height: 100%; border-radius: 6%;" src="{{item.image}}" alt="">
+        <img *ngIf="!item.image" style="min-width: 100%; height: 100%; border-radius: 6%;" src="../../../assets/OIP.jpeg" alt="">
+        </div> -->
+        <div class="card__wrapper">
+        <div class="card__subtitle">Car &nbsp;&nbsp;&nbsp;&nbsp;   : {{item.name}}</div>
+        <div class="card__subtitle-four">Availability</div>
+        </div>
+        <div class="card__subtitle">Model  : {{item.model}}</div>
+
+        <div class="card__subtitle">Color&nbsp;&nbsp;  : {{item.color}}</div>
+        <div class="card__wrapper " style="margin-top: 66px;">
+            <div class="card__title">{{item.number}}</div>
+            <div class="card__icon"><svg color="rgb(224, 223, 220)" style="user-select: none; width: 100%; height: 100%; display: inline-block; fill: rgb(224, 223, 220); flex-shrink: 0; cursor: auto;" viewBox="0 0 256 256" (click)="view(item.number)" xmlns="http://www.w3.org/2000/svg"><g color="rgb(224, 223, 220)"><circle opacity="0.2" r="96" cy="128" cx="128"></circle><circle stroke-width="16" stroke-miterlimit="10" stroke="rgb(224, 223, 220)" fill="none" r="96" cy="128" cx="128"></circle><polyline stroke-width="16" stroke-linejoin="round" stroke-linecap="round" stroke="rgb(224, 223, 220)" fill="none" points="134.1 161.9 168 128 134.1 94.1"></polyline><line stroke-width="16" stroke-linejoin="round" stroke-linecap="round" stroke="rgb(224, 223, 220)" fill="none" y2="128" x2="168" y1="128" x1="88"></line></g></svg></div>
+        </div>
+    </div>
+    </div>
+  </div>

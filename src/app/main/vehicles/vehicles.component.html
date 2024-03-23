@@ -1,0 +1,122 @@
+<div class="frame " >
+  <div style="width: 100%; height: 6%; background-color:  #626eac">
+    <div style="width: 10vw; height: 100%;  display: flex; justify-content: center; align-items: center; ">
+      <div style="margin-left: 30px; font-weight: 600; color: rgb(255, 255, 255);" (click)="goBack()">Back</div>
+    </div>
+  </div>
+  <h1 style=" font-size: 20px ;  font-weight: 600; padding-left: 20px;"> My Vehicles</h1>
+
+  <div style="width: 100%; height: 6%; display: flex; justify-content: center; ">
+    <div style="flex: 8; height: 100%; display: flex; justify-content: center; align-items: center;">
+      <input
+        style="width: 90%; height: 80%; background-color: rgb(255, 255, 255); border-radius: 5px; color: rgb(39, 37, 37);"
+        placeholder="Search for vehicle.." (keyup)="search($event)" [(ngModel)]="searchText"  type="text">
+    </div>
+    <div style="flex: 2;  height: 100%; display: flex; justify-content: center; align-items: center;">
+      <div
+        style="width: 80%; height: 80%; background-color: rgb(89 122 101); border-radius: 20px;  display: flex; justify-content: center; align-items: center; margin-right: 20px;"
+        (click)="addNewVehicle()">
+        <div>Add +</div>
+      </div>
+    </div>
+  </div>
+  <div style="width: 100%; height: 82vh; overflow-y: scroll;">
+    <div *ngFor="let item of vehicleList" >
+      <div class="card " style="height: 10%; width: 95%;">
+        <div class="card__wrapper" style="font-size: 14px; padding-right: 10px; padding-left: 10px;">
+          <!-- <div class="card__img" style="flex: 1;">           
+            <img *ngIf="item.image" style="min-width: 50%; height:75px; border-radius: 2%;" src="{{item.image}}" alt="">
+            <img *ngIf="!item.image" style="min-width: 50%; height:75px; border-radius: 2%;" src="https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png" alt="">
+          </div> -->
+          <div class="card__title " style="flex: 3; padding-left: 10px;">
+            <div class="card__wrapper" style="font-size: 14px;">
+              <div class="card__subtitle5"style="font-size: 14px;" >{{item.name}}</div>
+              <div class="card__subtitle-four5" style="color: green;">Availability</div>
+            </div>
+            <div class="card__subtitle-5" style="font-size: 14px;">{{item.model}}</div>
+            <div class="card__subtitle-three5" style="font-size: 14px;">{{item.color}}</div>
+            <div class="card__wrapper" style="font-size: 14px;">
+              <div class="card__subtitle-two5" style="font-size: 14px;">{{item.number}}</div>
+              <div class="card__wrapper " style="justify-content: end;">
+                <button style=" margin-right: 10px; padding: 5px; background-color: rgb(227, 115, 115);" (click)="remove(item.number)">Remove</button>
+                <button style=" padding: 5px; background-color: rgb(110, 136, 172);">Update</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    <div *ngIf="vehicleList.length === 0">
+      <h1 style="text-align: center; margin-top: 20vh; color: rgb(53, 50, 50);">No vehicles found (:</h1>
+    </div>
+
+  </div>
+</div>
+
+<div *ngIf="addNew" class="frame"
+  style="position: absolute; width: 100%; height: 100%;  border-radius: 15px;">
+  <form [formGroup]="carForm">
+    <div style="display:flex; flex-direction:row; justify-content:space-between; margin-top:20px;">
+      <div style="font-size:20px; margin-left: 30px; font-weight: 650; color: rgb(49, 50, 49);">Add Car</div>
+      <div style="font-weight: 650; color: rgb(231, 137, 137); margin-right:30px; margin-top:4px;"
+        (click)="addNewVehicle()">Close</div>
+    </div>
+    <div
+      style="position: relative; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center;">
+      <div
+        style="width:100%; height: 100%; display: flex; flex-direction: column; align-items: center; gap: 30px; margin-top: 50px;"
+        class="shade">
+
+        <div class='full-input'><label for='name' style="color: rgb(53, 50, 50);">Image</label>
+          <input type='file' name='username' (change)="onFileSelected($event)"
+            style=" background-color: rgb(254, 254, 254);  height: 30px; width: 50vw; background-color: transparent;  border-radius: 8px; color: rgb(53, 50, 50);">
+        </div>
+
+        <div class='full-input'><label for='name' style="color: rgb(53, 50, 50);">Name</label>
+          <input type='text' name='username' formControlName="name"
+            style="  height: 30px; width: 50vw; background-color: transparent;  border-radius: 8px;color: rgb(53, 50, 50);">
+          <span style="color:red;" *ngIf="carForm.get('name').hasError('required') && carForm.get('name').touched">
+            name is required
+          </span>
+        </div>
+        <div class='full-input'><label for='name' style="color: rgb(53, 50, 50);">Color</label>
+          <input type='text' name='username' formControlName="color"
+            style="  height: 30px; width: 50vw; background-color: transparent;  border-radius: 8px; color: rgb(53, 50, 50);">
+          <span style="color:red;" *ngIf="carForm.get('color').hasError('required') && carForm.get('color').touched">
+            color is required
+          </span>
+        </div>
+        <div class='full-input'><label for='name' style="color: rgb(53, 50, 50);">Model</label>
+          <input type='text' name='model' formControlName="model"
+            style="  height: 30px; width: 50vw; background-color: transparent;  border-radius: 8px; color: rgb(53, 50, 50);">
+          <span style="color:red;" *ngIf="carForm.get('model').hasError('required') && carForm.get('model').touched">
+            Model is required
+          </span>
+        </div>
+        <div class='full-input'><label for='name' style="color: rgb(53, 50, 50);">Car Number</label>
+          <input type='text' name='username' formControlName="number"
+            style="  height: 30px; width: 50vw; background-color: transparent;  border-radius: 8px; color: rgb(53, 50, 50);">
+          <span style="color:red;" *ngIf="carForm.get('number').hasError('required') && carForm.get('number').touched">
+            Number is required
+          </span>
+        </div>
+
+
+        <button
+          style="margin-top: 50px; height: 50px; width: 70vw; color: rgb(255, 255, 255); background-color: rgb(77, 118, 86); border-radius: 10px; font-size: 15px;"
+          (click)=addVehicleToList()>Add</button>
+      </div>
+    </div>
+  </form>
+</div>

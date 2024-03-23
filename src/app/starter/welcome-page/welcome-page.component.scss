@@ -1,0 +1,15 @@
+.frame{
+    width: 100svw;
+    height: 100svh;
+    background-image: linear-gradient(to top, rgb(29, 54, 119), rgb(54, 119, 198)), 
+}
+
+.title{
+    display: flex;
+    color: rgb(255, 255, 255);
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: 25px;
+    font-family: cursive;
+}

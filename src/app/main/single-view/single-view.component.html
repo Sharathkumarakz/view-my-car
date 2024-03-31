@@ -1,4 +1,4 @@
-<div class="frame " >
+<!-- <div class="frame " >
   <div style="width: 100%; height: 6%; background-color:  #626eac">
     <div style="width: 10vw; height: 100%;  display: flex; justify-content: center; align-items: center; ">
       <div style="margin-left: 30px; font-weight: 600; color: rgb(255, 255, 255);" (click)="goBack()">Back</div>
@@ -56,13 +56,13 @@
     </div>
 
   </div>
-</div>
+</div> -->
 
 <div *ngIf="addNew" class="frame"
   style="position: absolute; width: 100%; height: 100%;  border-radius: 15px;">
   <form [formGroup]="userForm">
     <div style="display:flex; flex-direction:row; justify-content:space-between; margin-top:20px;">
-      <div style="font-size:20px; margin-left: 30px; font-weight: 650; color: rgb(86, 134, 81);">Add Order</div>
+      <div style="font-size:20px; margin-left: 30px; font-weight: 650; color: rgb(86, 134, 81);">Add Deal</div>
       <div style="font-weight: 650; color: rgb(231, 137, 137);  margin-right:30px; margin-top:4px;"
         (click)="addNewVehicle()">Close</div>
     </div>
@@ -73,14 +73,14 @@
         class="shade">
         <div class='full-input'><label for='name' style="color: rgb(53, 50, 50);">Started at</label>
           <input type='date' name='username' formControlName="sDate"
-            style="  height: 30px; width: 50vw; background-color: transparent;  border-radius: 8px; color: rgb(53, 50, 50);">
+            style="  height: 30px; width: 50vw; background-color: rgb(188, 186, 186);  border-radius: 8px; color: rgb(53, 50, 50);">
           <span style="color:red;" *ngIf="userForm.get('sDate').hasError('required') && userForm.get('sDate').touched">
             start date is required
           </span>
         </div>
         <div class='full-input'><label for='name' style="color: rgb(53, 50, 50);">Ending on</label>
           <input type='date' name='username' formControlName="eDate"
-            style="  height: 30px; width: 50vw; background-color: transparent;  border-radius: 8px; color: rgb(53, 50, 50);">
+            style="  height: 30px; width: 50vw; background-color: rgb(188, 186, 186);  border-radius: 8px; color: rgb(53, 50, 50);">
           <span style="color:red;" *ngIf="userForm.get('eDate').hasError('required') && userForm.get('eDate').touched">
             End date is required
           </span>
@@ -98,4 +98,60 @@
       </div>
     </div>
   </form>
+</div> 
+
+<div *ngIf="!addNew"  class="main" style=" max-width: 100vw; max-height: 100svh; background-color: rgb(40, 38, 38);">
+  <div style="width: 100vw; height: 150px; display: flex; justify-content: center; align-items: center; color: rgb(255, 255, 255); font-size: 20px; position: relative;">
+    <i (click)="goBack()" class="fa fa-long-arrow-left " style="color: white; left: 40px; position: absolute;"></i>
+    Vehicle
+    </div>
+   <div style="width: 100vw; height: 85svh; background-color: rgb(255, 255, 255); border-radius: 40px 40px 0px 0px;">
+    <div style="width: 100%; height: 60px; display:flex ; justify-content: center; gap: 30px; padding-top: 37px;">
+      <div >
+        <button (click)="addNewVehicle()" style="background-color:  #FBF5BE; border: none; width: 150px; height: 40px; padding: 5px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; padding: 10px; border-radius: 3px; font-size: 15px; font-weight: 600;">Add New Deal +</button>
+      </div>
+      <div>
+        <button (click)="view()" style="background-color:  #FBF5BE; border: none; width: 150px; height: 40px; padding: 5px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; padding: 10px; border-radius: 3px; font-size: 15px; font-weight: 600;">View All Deals</button>
+      </div>
+
+
+      
+    </div>
+    <div style=" height: 40px; margin-left: 35px;  padding-top: 40px;">
+      <span style="font-size: 33px; color: rgb(53, 47, 47); font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; font-weight: 550;">{{carName}}</span><br>
+      <span style="font-size: 24px; color: rgb(71, 67, 67); padding-top: 10px;">{{carModel}}</span><br>
+      <span style="font-size: 22px; color: rgb(71, 67, 67); padding-top: 10px;">{{carColor}}</span><br>
+      <span style="font-size: 27px; color: rgb(71, 67, 67); padding-top: 20px;  font-weight: 550;">{{carNumber}}</span>
+      <i (click)="removeCar()" class="fa fa-trash " style="color: rgb(225, 72, 72); font-size: 24px; position: absolute; right: 31px; top: 351px;"></i>
+     <br>
+
+     </div>
+
+     <div *ngIf="!orderList.length" style=" height: 60px; display:flex ; justify-content: center; align-items: center;">
+ 
+      <img style="width: 50vw; margin-top: 420px;" src="../../../assets/no-order.png" alt="">
+      </div>
+      <h1 *ngIf="orderList.length"
+      style="font-size: 18px; margin-left: 27px; padding-top: 150px;"
+      class="owner-greating"
+    >
+    Latest Deals
+      </h1>
+     <div style="width: 100%; height: 60px; display:flex ; justify-content: center; gap: 30px;">
+     <table  *ngIf="orderList.length">
+      <tr>
+          <th>Name</th>
+          <th>start Date</th>
+           <th>End Date</th>
+           <th>Action</th>
+        </tr>
+        <tr *ngFor="let item of orderList.slice(orderList.length - 5,orderList.length).reverse()">
+        <td style="padding-left: 10px;">{{item.user}}</td>
+
+        <td>{{item.endDate}}</td>
+         <td>{{item.startDate}}</td>
+         <td>    <i (click)="remove(item.id)" class="fa fa-trash" style="color: rgb(210, 93, 93); padding-left: 20px;"></i></td>
+     </table>
+  </div>
+  </div>
 </div>

@@ -7,6 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { VehiclesComponent } from './vehicles/vehicles.component';
 import { BookingComponent } from './booking/booking.component';
 import { SingleViewComponent } from './single-view/single-view.component';
+import { OrdersComponent } from './orders/orders.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { SingleViewComponent } from './single-view/single-view.component';
     HomeComponent,
     VehiclesComponent,
     BookingComponent,
-    SingleViewComponent
+    SingleViewComponent,
+    OrdersComponent
   ],
   imports: [
     CommonModule,

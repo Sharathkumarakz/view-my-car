@@ -189,4 +189,32 @@
   }
   
   
-  
+  table{
+    margin-top: 4px;
+    border: 1px solid rgb(133, 132, 132);
+    width: 85svw !important;
+    color: rgb(50, 48, 48);
+    background-color: #e7e7e7;
+    padding: 5px;
+    border-radius: 5px;
+  }
+
+  tr{
+    height: 35px;
+    border: 1px solid rgb(89, 89, 89);
+    
+  }
+
+  th{
+    background-color: #ffffff;
+    text-align: start !important;
+    padding-left: 13px;
+  }
+
+  td{
+    background-color: white;
+  }
+
+  .header-row{
+  margin: 10px;
+  }

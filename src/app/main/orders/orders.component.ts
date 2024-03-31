@@ -2,14 +2,14 @@ import { Component, OnInit, inject} from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ViewWillEnter } from '@ionic/angular';
-import { AlertController, ToastController } from '@ionic/angular';
-
+import jsPDF from 'jspdf';
+ 
 @Component({
-  selector: 'app-single-view',
-  templateUrl: './single-view.component.html',
-  styleUrls: ['./single-view.component.scss'],
+  selector: 'app-orders',
+  templateUrl: './orders.component.html',
+  styleUrls: ['./orders.component.scss'],
 })
-export class SingleViewComponent  implements OnInit, ViewWillEnter {
+export class OrdersComponent implements OnInit, ViewWillEnter {
 
 
   ionViewWillEnter(): void {
@@ -19,15 +19,12 @@ export class SingleViewComponent  implements OnInit, ViewWillEnter {
   private router = inject(Router);
   private fb = inject(FormBuilder);
   private aroute = inject(ActivatedRoute);
-  private alertController = inject(AlertController);
-  private toastController = inject(ToastController);
 
   carModel:string = '';
   carName: string = '';
   carColor: string = '';
   carNumber: string = '';
-  handlerMessage = '';
-  roleMessage = '';
+  resetData: any;
 
   userForm :any;
   addNew = false;
@@ -77,7 +74,8 @@ export class SingleViewComponent  implements OnInit, ViewWillEnter {
 
   getAllOrders(){
     this.orderList = JSON.parse(localStorage.getItem('orders') as string) ? JSON.parse(localStorage.getItem('orders') as string) : [];
-
+    console.log(this.orderList);
+    
     this.orderList.forEach((details,indx) => {
         this.vehicleList.forEach((cars) => {
           if(cars.id == details.car){
@@ -87,6 +85,9 @@ export class SingleViewComponent  implements OnInit, ViewWillEnter {
             this.orderList[indx].car = cars.number;
           }
         })
+    })
+    this.resetData = this.orderList.filter((data) => {
+      return data.car !== this.carNumber;
     })
 
     this.orderList = this.orderList.filter((data) => {
@@ -117,16 +118,15 @@ export class SingleViewComponent  implements OnInit, ViewWillEnter {
       return;
     }
 
-    
-    
-    const orderList = JSON.parse(localStorage.getItem('orders') as string) ? JSON.parse(localStorage.getItem('orders') as string) : [];
     const vehicle = {
       car: this.carId,
       endDate: this.userForm.get('eDate').value,
       startDate: this.userForm.get('sDate').value,
       user: this.userForm.get('customer').value,
-      id: orderList.length
     }
+
+   
+    const orderList = JSON.parse(localStorage.getItem('orders') as string) ? JSON.parse(localStorage.getItem('orders') as string) : [];
     orderList.push(vehicle);
     localStorage.setItem('orders', JSON.stringify(orderList));
     this.addNewVehicle();
@@ -138,25 +138,13 @@ export class SingleViewComponent  implements OnInit, ViewWillEnter {
   }
 
   remove(num:string){
-    this.presentAlert(num);
-  }
 
-  async presentToast(position: 'top' | 'middle' | 'bottom',mgs:string) {
-    const toast = await this.toastController.create({
-      message: mgs,
-      duration: 1500,
-      position: position,
+    const cars = this.orderList.filter((car:any) => {
+      return car.number !== num;
     });
 
-    await toast.present();
-  }
-
-  removeCar(){
-  if(this.orderList.length){
-    this.presentToast('top','Please Download all the Deals related to this car before deleting this Car.');
-    return;
-  }
-  this.presentAlert();
+    localStorage.setItem('orders', JSON.stringify(cars));
+    this.getAllOrders();
   }
 
 
@@ -173,50 +161,71 @@ export class SingleViewComponent  implements OnInit, ViewWillEnter {
   }
 
 
-  view(){
-    this.router.navigate(['/home/orders',this.carNumber]);
-  }
+  downloadAsPDF() {
+    
+    if(!this.orderList.length){
+      return;
+    }
 
-
-  async presentAlert(num?: string) {
-    const alert = await this.alertController.create({
-      header: 'Are you sure to delete?',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            this.handlerMessage = 'Canceled';
-          },
-        },
-        {
-          text: 'OK',
-          role: 'confirm',
-          handler: () => {
-
-            if(!num){
-            const cars = this.vehicleList.filter((car:any) => {
-              return car.number !== this.carNumber;
-            });
-        
-            localStorage.setItem('myCars', JSON.stringify(cars));
-            this.presentToast('top','Successfully deleted');
-            this.router.navigate(['/home']);
-          } else{
-            const cars = this.vehicleList.filter((car:any) => {
-              return car.number !== num;
-            });
-        
-            localStorage.setItem('myCars', JSON.stringify(cars));
-            this.getAllCars();
-            this.presentToast('top','Successfully deleted');
-          }
-          },
-        },
-      ],
+    const doc = new jsPDF();
+    const startY = 10;
+    const lineHeight = 7;
+    const cellPadding = 10; // Adjust for desired padding
+ 
+    // Document properties (consider including more details if relevant)
+    doc.setProperties({
+      title: 'Your Document Title', // Replace with your desired title
+      author: 'Your Name', // Replace with your name or organization
     });
-
-    await alert.present();
-  }
-  
+ 
+    // Centering calculations (assuming all columns have same width)
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const tableWidth = (10 + (2 * cellPadding)) * 3; // Assuming 3 columns, adjust if needed
+    const tableOffsetX = (pageWidth - tableWidth) / 2;
+ 
+    // Font settings
+    doc.setFont('helvetica');
+    doc.setFontSize(12);
+ 
+    // Heading (larger font size and centered)
+    const headingFontSize = 16;
+    const date = new Date(Date.now());
+ 
+// Define the formatting options with type assertions
+const options: Intl.DateTimeFormatOptions = {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+ 
+};
+ 
+const humanReadableDate: string = date.toLocaleDateString('en-US', options);
+console.log(humanReadableDate);
+    const headingY = startY + (headingFontSize / 2); // Adjust Y position for centering
+    doc.setFontSize(headingFontSize);
+    doc.text( `${humanReadableDate} - Report`, tableOffsetX + (tableWidth / 2), headingY, { align: 'center' }); // Center-aligned heading
+ 
+    // Table headers
+    const headerX = [
+      tableOffsetX + 2 - 10,
+      tableOffsetX + 2 + (tableOffsetX/2),
+      tableOffsetX + 2 + tableOffsetX + 8,
+    ];
+    doc.text('Name', headerX[0], startY + headingFontSize + lineHeight );
+    doc.text('Date1', headerX[1], startY + headingFontSize + lineHeight);
+    doc.text('Date2', headerX[2], startY + headingFontSize + lineHeight);
+ 
+    // Set the data rows
+    this.orderList.forEach((item: any,index:number) => {
+      doc.text(item.user, headerX[0], startY + headingFontSize + lineHeight + 10 +(index*10));
+      doc.text(item.startDate, headerX[1], startY + headingFontSize + lineHeight + 10 +(index*10))
+      doc.text(item.endDate, headerX[2], startY + headingFontSize + lineHeight + 10 +(index*10))
+    });
+    // Save the PDF
+    doc.save(`report.pdf`);
+    localStorage.setItem('orders', JSON.stringify(this.resetData));
+    this.getAllOrders();
+}
 }

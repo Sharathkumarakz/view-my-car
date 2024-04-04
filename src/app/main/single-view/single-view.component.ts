@@ -1,4 +1,4 @@
-import { Component, OnInit, inject} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ViewDidEnter } from '@ionic/angular';
@@ -9,9 +9,7 @@ import { AlertController, ToastController } from '@ionic/angular';
   templateUrl: './single-view.component.html',
   styleUrls: ['./single-view.component.scss'],
 })
-export class SingleViewComponent  implements OnInit, ViewDidEnter {
-
-
+export class SingleViewComponent implements OnInit, ViewDidEnter {
   ionViewDidEnter(): void {
     this.ngOnInit();
   }
@@ -22,28 +20,28 @@ export class SingleViewComponent  implements OnInit, ViewDidEnter {
   private alertController = inject(AlertController);
   private toastController = inject(ToastController);
 
-  carModel:string = '';
+  carModel: string = '';
   carName: string = '';
   carColor: string = '';
   carNumber: string = '';
   handlerMessage = '';
   roleMessage = '';
   textSearch = true;
+  isEditMode = false;
+  editId: string = '';
 
-  userForm :any;
+  userForm: any;
   addNew = false;
   orderList: any[] = [];
   vehicleList: any[] = [];
   cars: any[] = [];
   image!: string;
-  searchText!:string;
+  searchText!: string;
   allOrders: any[] = [];
-  carId!:string;
-
-  
+  carId!: string;
 
   ngOnInit() {
-    this.aroute.params.subscribe(params => {
+    this.aroute.params.subscribe((params) => {
       this.carNumber = params['id'];
     });
     this.getAllCars();
@@ -51,55 +49,57 @@ export class SingleViewComponent  implements OnInit, ViewDidEnter {
     this.initFormGroup();
   }
 
-  initFormGroup(): void { 
+  initFormGroup(): void {
     this.userForm = this.fb.group({
-      sDate: new FormControl('', [
-        Validators.required
-      ]),
-      eDate: new FormControl('', [
-        Validators.required
-      ]),
-      customer: new FormControl('', [
-        Validators.required
-      ]),
+      sDate: new FormControl('', [Validators.required]),
+      eDate: new FormControl('', [Validators.required]),
+      customer: new FormControl('', [Validators.required]),
     });
   }
-  getAllCars(){
-    this.vehicleList = JSON.parse(localStorage.getItem('myCars') as string) ? JSON.parse(localStorage.getItem('myCars') as string) : [];
+  getAllCars() {
+    this.vehicleList = JSON.parse(localStorage.getItem('myCars') as string)
+      ? JSON.parse(localStorage.getItem('myCars') as string)
+      : [];
     this.vehicleList.forEach((cars) => {
-            if(cars.number == this.carNumber){
-              this.carId = cars.id;
-              this.carName = cars.name;
-              this.carModel = cars.model;
-              this.carColor = cars.color;
-          }});
+      if (cars.number == this.carNumber) {
+        this.carId = cars.id;
+        this.carName = cars.name;
+        this.carModel = cars.model;
+        this.carColor = cars.color;
+      }
+    });
   }
 
+  getAllOrders() {
+    this.orderList = JSON.parse(
+      localStorage.getItem(`${this.carNumber}`) as string
+    )
+      ? JSON.parse(localStorage.getItem(`${this.carNumber}`) as string)
+      : [];
 
-  getAllOrders(){
-    this.orderList = JSON.parse(localStorage.getItem(`${this.carNumber}`) as string) ? JSON.parse(localStorage.getItem(`${this.carNumber}`) as string) : [];
-
-    this.orderList.forEach((details,indx) => {
-        this.vehicleList.forEach((cars) => {
-          if(cars.id == details.car){
-            if(cars.number == this.carNumber){
-              this.carId = cars.id;    
-            }
-            this.orderList[indx].car = cars.number;
+    this.orderList.forEach((details, indx) => {
+      this.vehicleList.forEach((cars) => {
+        if (cars.id == details.car) {
+          if (cars.number == this.carNumber) {
+            this.carId = cars.id;
           }
-        })
-    })
+          this.orderList[indx].car = cars.number;
+        }
+      });
+    });
 
     this.orderList = this.orderList.filter((data) => {
       return data.car === this.carNumber;
-    })
+    });
 
-   this.allOrders = this.orderList;
+    this.allOrders = this.orderList;
   }
 
-
   addNewVehicle() {
-    this.addNew = !this.addNew
+    this.addNew = !this.addNew;
+    this.isEditMode = false;
+    this.editId = '';
+    this.userForm.reset();
   }
 
   onFileSelected(event: any) {
@@ -113,36 +113,61 @@ export class SingleViewComponent  implements OnInit, ViewDidEnter {
   }
 
   addOrder() {
-    if(this.userForm.invalid){
+    if (this.userForm.invalid) {
       this.userForm.markAllAsTouched();
       return;
     }
 
-    
-    
-    const orderList = JSON.parse(localStorage.getItem(`${this.carNumber}`) as string) ? JSON.parse(localStorage.getItem(`${this.carNumber}`) as string) : [];
+    if (this.isEditMode) {
+      let order = this.orderList.filter((data) => {
+        return data.id !== this.editId;
+      });
+      console.log(order,this.editId);
+      
+      if (!order) {
+        order = [];
+      }
+      const vehicle = {
+        car: this.carId,
+        endDate: this.userForm.get('eDate').value,
+        startDate: this.userForm.get('sDate').value,
+        user: this.userForm.get('customer').value,
+        id: order.length,
+      };
+      order.push(vehicle);
+      localStorage.setItem(`${this.carNumber}`, JSON.stringify(order));
+      this.addNewVehicle();
+      this.getAllOrders();
+      return;
+    }
+
+    const orderList = JSON.parse(
+      localStorage.getItem(`${this.carNumber}`) as string
+    )
+      ? JSON.parse(localStorage.getItem(`${this.carNumber}`) as string)
+      : [];
     const vehicle = {
       car: this.carId,
       endDate: this.userForm.get('eDate').value,
       startDate: this.userForm.get('sDate').value,
       user: this.userForm.get('customer').value,
-      id: orderList.length
-    }
+      id: orderList.length,
+    };
     orderList.push(vehicle);
     localStorage.setItem(`${this.carNumber}`, JSON.stringify(orderList));
     this.addNewVehicle();
     this.getAllOrders();
   }
 
-  goBack(){
+  goBack() {
     this.router.navigate(['/home']);
   }
 
-  remove(num:string){
+  remove(num: string) {
     this.presentAlert(num);
   }
 
-  async presentToast(position: 'top' | 'middle' | 'bottom',mgs:string) {
+  async presentToast(position: 'top' | 'middle' | 'bottom', mgs: string) {
     const toast = await this.toastController.create({
       message: mgs,
       duration: 1500,
@@ -152,17 +177,19 @@ export class SingleViewComponent  implements OnInit, ViewDidEnter {
     await toast.present();
   }
 
-  removeCar(){
-  if(this.orderList.length){
-    this.presentToast('top','Please Download all the Deals related to this car before deleting this Car.');
-    return;
-  }
-  this.presentAlert();
+  removeCar() {
+    if (this.orderList.length) {
+      this.presentToast(
+        'top',
+        'Please Download all the Deals related to this car before deleting this Car.'
+      );
+      return;
+    }
+    this.presentAlert();
   }
 
-
-  search(text:KeyboardEvent){
-    if(!this.searchText){
+  search(text: KeyboardEvent) {
+    if (!this.searchText) {
       this.orderList = this.allOrders;
       return;
     }
@@ -172,17 +199,20 @@ export class SingleViewComponent  implements OnInit, ViewDidEnter {
       const startDate = data?.startDate ? data.startDate.toLowerCase() : '';
       const endDate = data?.endDate ? data.endDate.toLowerCase() : '';
       const user = data?.user ? data.user.toLowerCase() : '';
-      if(car.includes(searchText) || startDate.includes(searchText) || endDate.includes(searchText) || user.includes(searchText)){
-          return data;
+      if (
+        car.includes(searchText) ||
+        startDate.includes(searchText) ||
+        endDate.includes(searchText) ||
+        user.includes(searchText)
+      ) {
+        return data;
       }
-  });
+    });
   }
 
-
-  view(){
-    this.router.navigate(['/home/orders',this.carNumber]);
+  view() {
+    this.router.navigate(['/home/orders', this.carNumber]);
   }
-
 
   async presentAlert(num?: string) {
     const alert = await this.alertController.create({
@@ -199,24 +229,22 @@ export class SingleViewComponent  implements OnInit, ViewDidEnter {
           text: 'OK',
           role: 'confirm',
           handler: () => {
+            if (!num) {
+              const cars = this.vehicleList.filter((car: any) => {
+                return car.number !== this.carNumber;
+              });
 
-            if(!num){
-            const cars = this.vehicleList.filter((car:any) => {
-              return car.number !== this.carNumber;
-            });
-        
-            localStorage.setItem('myCars', JSON.stringify(cars));
-            this.presentToast('top','Successfully deleted');
-            this.router.navigate(['/home']);
-          } else{
-            const cars = this.vehicleList.filter((car:any) => {
-              return car.number !== num;
-            });
-        
-            localStorage.setItem('myCars', JSON.stringify(cars));
-            this.getAllCars();
-            this.presentToast('top','Successfully deleted');
-          }
+              localStorage.setItem('myCars', JSON.stringify(cars));
+              this.presentToast('top', 'Successfully deleted');
+              this.router.navigate(['/home']);
+            } else {
+              let data =this.allOrders.filter((data) => {
+                return data.id !== num;
+              })          
+              localStorage.setItem(`${this.carNumber}`, JSON.stringify(data));
+              this.presentToast('top','Successfully deleted');
+              this.getAllOrders(); 
+            }
           },
         },
       ],
@@ -224,9 +252,24 @@ export class SingleViewComponent  implements OnInit, ViewDidEnter {
 
     await alert.present();
   }
-  
 
-  changeSearch(){
+  edit(num: string) {
+    console.log(num);
+    
+    this.isEditMode = true;
+    this.editId = num;
+    this.addNew = !this.addNew;
+    const order = this.orderList.filter((data) => {
+      return data.id == num;
+    });
+    this.userForm.patchValue({
+      customer: order[0].user,
+      sDate: order[0].startDate,
+      eDate: order[0].endDate,
+    });
+  }
+
+  changeSearch() {
     this.textSearch = !this.textSearch;
   }
 }

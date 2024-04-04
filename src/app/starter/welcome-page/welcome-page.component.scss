@@ -1,7 +1,10 @@
 .frame{
     width: 100svw;
     height: 100svh;
-    background-image: linear-gradient(to top, rgb(29, 54, 119), rgb(54, 119, 198)), 
+    background-image: url('https://w0.peakpx.com/wallpaper/195/989/HD-wallpaper-dodge-challenger-dodge-car-black-tailights-night-thumbnail.jpg');
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .title{
@@ -11,5 +14,5 @@
     align-items: center;
     height: 100%;
     font-size: 25px;
-    font-family: cursive;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }

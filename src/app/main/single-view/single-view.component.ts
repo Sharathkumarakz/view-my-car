@@ -1,7 +1,7 @@
 import { Component, OnInit, inject} from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ViewWillEnter } from '@ionic/angular';
+import { ViewDidEnter } from '@ionic/angular';
 import { AlertController, ToastController } from '@ionic/angular';
 
 @Component({
@@ -9,10 +9,10 @@ import { AlertController, ToastController } from '@ionic/angular';
   templateUrl: './single-view.component.html',
   styleUrls: ['./single-view.component.scss'],
 })
-export class SingleViewComponent  implements OnInit, ViewWillEnter {
+export class SingleViewComponent  implements OnInit, ViewDidEnter {
 
 
-  ionViewWillEnter(): void {
+  ionViewDidEnter(): void {
     this.ngOnInit();
   }
 
@@ -167,10 +167,15 @@ export class SingleViewComponent  implements OnInit, ViewWillEnter {
       return;
     }
     this.orderList = this.allOrders.filter((data) => {
-        if(data?.car?.includes(this.searchText) || data?.startDate?.includes(this.searchText) || data?.endDate?.includes(this.searchText) || data?.user?.includes(this.searchText)){
+      const searchText = this.searchText.toLowerCase();
+      const car = data?.car ? data.car.toLowerCase() : '';
+      const startDate = data?.startDate ? data.startDate.toLowerCase() : '';
+      const endDate = data?.endDate ? data.endDate.toLowerCase() : '';
+      const user = data?.user ? data.user.toLowerCase() : '';
+      if(car.includes(searchText) || startDate.includes(searchText) || endDate.includes(searchText) || user.includes(searchText)){
           return data;
-        }
-     })
+      }
+  });
   }
 
 

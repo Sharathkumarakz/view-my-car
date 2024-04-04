@@ -195,20 +195,20 @@
   </div>
   <div style="width: 100%; height: 60px; display:flex ; justify-content: center; gap: 10px; padding-top: 10px;">
     <div >
-      <button (click)="addNewVehicle()" style="background-color:  #b3d89b; border: none; width: 150px; height: 40px; padding: 5px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; padding: 10px; border-radius: 8px; font-size: 15px; font-weight: 600;">Add New Deal +</button>
+      <button (click)="addNewVehicle()" style="background-color:  #678752; border: none; width: 150px; height: 40px; padding: 5px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; padding: 10px; border-radius: 8px; font-size: 15px; font-weight: 600;">Add New Deal +</button>
     </div>
     <div>
-      <button (click)="view()" style="background-color:  #bedcfb; border: none; width: 150px; height: 40px; padding: 5px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; padding: 10px; border-radius: 8px; font-size: 15px; font-weight: 600;">Download</button>
+      <button (click)="view()" style="background-color:  #6eb2f6; border: none; width: 150px; height: 40px; padding: 5px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; padding: 10px; border-radius: 8px; font-size: 15px; font-weight: 600;">Download</button>
     </div>
   </div>
   <div style="position: relative;" class="mt-[10px]">
     <span class="absolute bottom-2 left-11  text-[14px] " style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color: rgb(49,48,47);">All Deals</span><br>
-    <span class="absolute bottom-2 right-11 " style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;"><i class="fa fa-refresh text-[20px] pl-[5px] pt-[5px]" style="color: rgb(40, 37, 37);" ></i></span>
+    <span class="absolute bottom-2 right-11 " style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;"><i class="fa fa-refresh text-[20px] pl-[5px] pt-[5px]" (click)="getAllOrders()" style="color: rgb(40, 37, 37);" ></i></span>
 
   </div>
   <div class="flex gap-[7px] pt-[10px] pb-[15px] flex-nowrap overflow-y-scroll px-7 ">
     <div class="w-[76svw]">
-       <input *ngIf="!textSearch" class="w-[76svw]" style="background-color: white; color: rgb(40, 37, 37); height: 37px; border-radius: 7px;" type="text" placeholder="Search.." name="search">
+       <input *ngIf="!textSearch" (keyup)="search($event)" [(ngModel)]="searchText" class="w-[76svw]" style="background-color: white; color: rgb(40, 37, 37); height: 37px; border-radius: 7px;" type="text" placeholder="Search.." name="search">
       <input *ngIf="textSearch" type="date" class="w-[76svw]" style="background-color: white; color: rgb(40, 37, 37); height: 37px; border-radius: 7px;"  placeholder="Search.." name="search">
 
     </div>

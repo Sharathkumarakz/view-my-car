@@ -99,6 +99,7 @@ export class HomeComponent  implements OnInit, ViewDidEnter {
     localStorage.setItem('myCars', JSON.stringify(vehicleList));
     this.addNewVehicle();
     this.getAllCars();
+    this.ionViewDidEnter();
   }
 
   getAllCars(){

@@ -28,6 +28,7 @@ export class SingleViewComponent  implements OnInit, ViewWillEnter {
   carNumber: string = '';
   handlerMessage = '';
   roleMessage = '';
+  textSearch = true;
 
   userForm :any;
   addNew = false;
@@ -76,7 +77,7 @@ export class SingleViewComponent  implements OnInit, ViewWillEnter {
 
 
   getAllOrders(){
-    this.orderList = JSON.parse(localStorage.getItem('orders') as string) ? JSON.parse(localStorage.getItem('orders') as string) : [];
+    this.orderList = JSON.parse(localStorage.getItem(`${this.carNumber}`) as string) ? JSON.parse(localStorage.getItem(`${this.carNumber}`) as string) : [];
 
     this.orderList.forEach((details,indx) => {
         this.vehicleList.forEach((cars) => {
@@ -119,7 +120,7 @@ export class SingleViewComponent  implements OnInit, ViewWillEnter {
 
     
     
-    const orderList = JSON.parse(localStorage.getItem('orders') as string) ? JSON.parse(localStorage.getItem('orders') as string) : [];
+    const orderList = JSON.parse(localStorage.getItem(`${this.carNumber}`) as string) ? JSON.parse(localStorage.getItem(`${this.carNumber}`) as string) : [];
     const vehicle = {
       car: this.carId,
       endDate: this.userForm.get('eDate').value,
@@ -128,7 +129,7 @@ export class SingleViewComponent  implements OnInit, ViewWillEnter {
       id: orderList.length
     }
     orderList.push(vehicle);
-    localStorage.setItem('orders', JSON.stringify(orderList));
+    localStorage.setItem(`${this.carNumber}`, JSON.stringify(orderList));
     this.addNewVehicle();
     this.getAllOrders();
   }
@@ -219,4 +220,8 @@ export class SingleViewComponent  implements OnInit, ViewWillEnter {
     await alert.present();
   }
   
+
+  changeSearch(){
+    this.textSearch = !this.textSearch;
+  }
 }

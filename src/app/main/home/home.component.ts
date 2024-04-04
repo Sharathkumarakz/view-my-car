@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ViewDidEnter } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,13 @@ export class HomeComponent  implements OnInit, ViewDidEnter {
 
   private router = inject(Router);
   private fb = inject(FormBuilder);
+  private alertController = inject(AlertController);
+  private toastController = inject(ToastController);
+
   
+  selectedCar:any;
+  orderList:any[] = [];
+  allOrders:any[] = [];
 
   carForm :any;
   availabilityForm: any;
@@ -64,6 +71,8 @@ export class HomeComponent  implements OnInit, ViewDidEnter {
     this.getAllCars();
     this.getAllCars();
     this.initFormGroup();
+    this.carSelection();
+    this.getAllOrders();
   }
 
   addNewVehicle() {
@@ -109,11 +118,13 @@ export class HomeComponent  implements OnInit, ViewDidEnter {
     this.router.navigate(['/home/view',num]);
   }
 
+  
+
   lookCars(){
 
     this.availableCars = [];
 
-    const orderList = JSON.parse(localStorage.getItem('orders') as string) ? JSON.parse(localStorage.getItem('orders') as string) : [];
+    const orderList = JSON.parse(localStorage.getItem(`${this.selectedCar.number}`) as string) ? JSON.parse(localStorage.getItem(`${this.selectedCar.number}`) as string) : [];
 
     if(!orderList){
       this.availableCars = this.vehicleList;
@@ -142,5 +153,87 @@ export class HomeComponent  implements OnInit, ViewDidEnter {
           
         })
     });
+  }
+
+
+
+
+  carSelection(item?:any){
+    if(!item){
+      this.selectedCar = this.vehicleList[this.vehicleList.length-1];
+      return;
+    }
+    this.selectedCar = item;
+    this.getAllOrders();
+  }
+
+
+
+  
+  getAllOrders(){
+    this.orderList = JSON.parse(localStorage.getItem(`${this.selectedCar.number}`) as string) ? JSON.parse(localStorage.getItem(`${this.selectedCar.number}`) as string) : [];
+
+    this.orderList.forEach((details,indx) => {
+      this.vehicleList.forEach((cars:any) => {
+        if(cars.id == details.car){
+          this.orderList[indx].car = cars.number;
+        }
+      })
+  })
+
+  this.allOrders = this.orderList;
+
+    this.orderList = this.orderList.filter((data) => {
+       return data.car === this.selectedCar.number;
+    })
+  }
+
+
+  remove(num:string){
+    this.presentAlert(num);
+  }
+
+  async presentToast(position: 'top' | 'middle' | 'bottom',mgs:string) {
+    const toast = await this.toastController.create({
+      message: mgs,
+      duration: 1500,
+      position: position,
+    });
+
+    await toast.present();
+  }
+
+
+  async presentAlert(num?: string) {
+    const alert = await this.alertController.create({
+      header: 'Are you sure to delete?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+
+          },
+        },
+        {
+          text: 'OK',
+          role: 'confirm',
+          handler: () => {
+            let data =this.allOrders.filter((data) => {
+              return data.id !== num;
+            })          
+            localStorage.setItem(`${this.selectedCar.number}`, JSON.stringify(data));
+            this.presentToast('top','Successfully deleted');
+            this.getAllOrders(); 
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  addNewEvent(value: string) {
+    this.addNew = !this.addNew
   }
 }

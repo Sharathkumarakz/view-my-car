@@ -78,7 +78,7 @@
 
 
 
-<div *ngIf="addNew" class="frame"
+<div *ngIf="addNew" class="frame !bg-[#f9f2f2] "
   style="position: absolute; width: 100%; height: 100%;  border-radius: 15px;">
   <form [formGroup]="userForm">
     <div style="display:flex; flex-direction:row; justify-content:space-between; margin-top:20px;">
@@ -193,7 +193,7 @@
     </div>
 
   </div>
-  <div style="width: 100%; height: 60px; display:flex ; justify-content: center; gap: 30px; padding-top: 10px;">
+  <div style="width: 100%; height: 60px; display:flex ; justify-content: center; gap: 10px; padding-top: 10px;">
     <div >
       <button (click)="addNewVehicle()" style="background-color:  #b3d89b; border: none; width: 150px; height: 40px; padding: 5px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; padding: 10px; border-radius: 8px; font-size: 15px; font-weight: 600;">Add New Deal +</button>
     </div>

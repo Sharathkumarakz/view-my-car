@@ -21,8 +21,10 @@ export class HeaderComponent {
 
   ionViewWillEnter(): void {
     console.log(this.router.url);
-    
-    
+  }
+
+  goBack(){
+    this.router.navigate(['/home']);
   }
 
 }

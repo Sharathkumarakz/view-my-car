@@ -46,24 +46,52 @@
 }
 
 .ag-courses_item:nth-child(1n) {
-  background-color: #f0d6c3;
+  // background-color: #f0d6c3;
+    background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_S1pnPpa0aobPqiWjvkidSMf8o7ZAf0zX9rsMI7s-tA&s');
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 .ag-courses_item:nth-child(2n) {
-  background-color: #ccf3d4;
+  // background-color: #ccf3d4;
+  background-image: url('https://img.indianauto.com/2020/12/02/Eqdt7g3W/front-side-look-of-maruti-alto-a02b.jpg');
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .ag-courses_item:nth-child(3n) {
-  background-color: #c7caf4;
+  // background-color: #c7caf4;
+  background-image: url('https://gaadiwaadi.com/wp-content/uploads/2020/12/Toyota-Innova-modified-front.jpg');
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .ag-courses_item:nth-child(4n) {
-  background-color: #dac1f2;
+  // background-color: #dac1f2;
+  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRq4Y0v9YnRQllgCAz_3hkKNIvHRc_OzJiJ7JRQErCltA&s');
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .ag-courses_item:nth-child(5n){
-  background-color: #eeb4d7;
+  // background-color: #eeb4d7;
+  background-image: url('https://img.freepik.com/premium-photo/car-with-digital-image-car-with-blue-background-that-says-audi-it_882954-18762.jpg');
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .ag-courses_item:nth-child(6n){
-  background-color: #bfbef3;
+  // background-color: #bfbef3;
+  background-image: url('https://i.pinimg.com/236x/46/80/81/46808139a446ad2c8ce240e47577f085.jpg');
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .selectedCard{
-  background-image: linear-gradient(to top,rgb(168, 179, 231), rgb(235, 134, 231));  
+  // background-image: linear-gradient(to top,rgb(168, 179, 231), rgb(235, 134, 231));  
+  background-image: url('https://gaadiwaadi.com/wp-content/uploads/2022/03/Charge-Cars-1967-Ford-Mustang-EV-img1.jpg');
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: cover;
 }

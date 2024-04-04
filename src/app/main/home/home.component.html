@@ -105,7 +105,8 @@
     </div>
   </form>
 </div>
-<!--
+
+
 <div *ngIf="isAvailabilityCheck" class="frame"
   style="position: absolute; width: 100%; height: 100%;  border-radius: 15px;">
   <form [formGroup]="availabilityForm">
@@ -169,14 +170,14 @@
       </div>
     </div>
   </form>
-</div> -->
+</div> 
 
 
 
 <div *ngIf="!addNew && !isAvailabilityCheck">
 <div class="w-[100svw] h-[100svh] bg-[#f9f2f2] relative">
   <div>
-  <app-header  (valueChanged)="addNewEvent($event)" class="absolute top-0"></app-header>
+  <app-header  (valueChanged)="addNewEvent($event)" (availabilityCheck)="checkAvailability()" class="absolute top-0"></app-header>
 </div>
   <div class="w-[100svw] h-[26svh] flex justify-center text-center pt-[61px]">
     <div style="width: 87svw; height:93%;  border-radius: 15px; position: relative;" class="selectedCard">
@@ -195,7 +196,7 @@
   </div>
   <div class="scroll-container flex justify-start gap-[15px] pt-[10px] flex-nowrap overflow-x-scroll px-6">
     <div *ngFor="let item of vehicleList.reverse()" style="min-width: 120px; height: 93%;  border-radius: 10px; position: relative; " (click)="carSelection(item)"  class="ag-courses_item">
-      <span class="absolute top-4 right-4 text-[25px] font-bold" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;"><i class="fa fa-car"></i></span><br>
+      <!-- <span class="absolute top-4 right-4 text-[25px] font-bold" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;"><i class="fa fa-car"></i></span><br> -->
       <span class="absolute bottom-6 left-3 text-[17px]" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{item.name}}</span><br>
       <span class="absolute bottom-3 left-3 text-[12px] text-[#f1f1f196]" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{item.model}}</span>
   </div>

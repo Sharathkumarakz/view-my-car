@@ -124,37 +124,38 @@ export class HomeComponent  implements OnInit, ViewDidEnter {
   lookCars(){
 
     this.availableCars = [];
-
-    const orderList = JSON.parse(localStorage.getItem(`${this.selectedCar.number}`) as string) ? JSON.parse(localStorage.getItem(`${this.selectedCar.number}`) as string) : [];
-
-    if(!orderList){
-      this.availableCars = this.vehicleList;
-      return;
-    } else if(!this.availabilityForm.get('startDate').value && !this.availabilityForm.get('endDate').value){
+    if(!this.availabilityForm.get('startDate').value && !this.availabilityForm.get('endDate').value){
       return
     }
+    this.vehicleList.forEach((data:any) => {
 
-    orderList.forEach((item:any) => {
-        const unAvailableCars:string[] = [];
-        const date2 = new Date(item.endDate);
-        const date1 = new Date(item.startDate);
-        const givenDate1Obj = new Date(this.availabilityForm.get('startDate').value ? this.availabilityForm.get('startDate').value : this.availabilityForm.get('endDate').value);
-        const givenDate2Obj = new Date(this.availabilityForm.get('endDate').value ? this.availabilityForm.get('endDate').value :this.availabilityForm.get('startDate').value);
-        if ((givenDate1Obj < date1 && givenDate2Obj < date1) || (givenDate1Obj > date2 && givenDate2Obj > date2)) {
-        } else {
-          unAvailableCars.push(item.car);
-        }
-
-        this.vehicleList.forEach((data:any) => {
-       
-          if(!unAvailableCars.includes(data.id)){
-            this.availableCars.push(data);
+     const orderList = JSON.parse(localStorage.getItem(`${this.selectedCar.number}`) as string) ? JSON.parse(localStorage.getItem(`${this.selectedCar.number}`) as string) : [];
+      if(orderList){
+        orderList.forEach((item:any) => {
+          const unAvailableCars:string[] = [];
+          const date2 = new Date(item.endDate);
+          const date1 = new Date(item.startDate);
+          const givenDate1Obj = new Date(this.availabilityForm.get('startDate').value ? this.availabilityForm.get('startDate').value : this.availabilityForm.get('endDate').value);
+          const givenDate2Obj = new Date(this.availabilityForm.get('endDate').value ? this.availabilityForm.get('endDate').value :this.availabilityForm.get('startDate').value);
+          if ((givenDate1Obj < date1 && givenDate2Obj < date1) || (givenDate1Obj > date2 && givenDate2Obj > date2)) {
+          } else {
+            unAvailableCars.push(item.car);
           }
-          console.log(this.availableCars);
-          
-        })
-    });
+  
+          this.vehicleList.forEach((data:any) => {
+            if(!unAvailableCars.includes(data.id)){
+              this.availableCars.push(data);
+            }
+          })
+      });
+      }
+    })
+    
+    if(!this.availableCars.length){
+      this.availableCars = this.vehicleList;
+      return;
   }
+}
 
 
 

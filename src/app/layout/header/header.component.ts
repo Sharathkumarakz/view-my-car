@@ -13,9 +13,14 @@ export class HeaderComponent {
   private router = inject(Router);
 
   @Output() valueChanged = new EventEmitter<string>();
+  @Output() availabilityCheck = new EventEmitter<string>();
 
   emitValue() {
     this.valueChanged.emit('addCar');
+  }
+
+  checkAvailability(){
+    this.availabilityCheck.emit('lookCars');
   }
 
 

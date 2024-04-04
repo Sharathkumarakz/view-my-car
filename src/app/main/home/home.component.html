@@ -179,7 +179,7 @@
   <div>
   <app-header  (valueChanged)="addNewEvent($event)" (availabilityCheck)="checkAvailability()" class="absolute top-0"></app-header>
 </div>
-  <div class="w-[100svw] h-[26svh] flex justify-center text-center pt-[61px]">
+  <div class="w-[100svw] h-[30svh] flex justify-center text-center pt-[61px]">
     <div style="width: 87svw; height:93%;  border-radius: 15px; position: relative;" class="selectedCard">
       <span class="absolute top-4 right-4 text-[25px] font-bold" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{selectedCar.number}}</span><br>
         <span class="absolute bottom-7 left-3  text-[25px] " style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{selectedCar.name}}</span><br>
@@ -205,7 +205,7 @@
     <span class="absolute bottom-2 left-6  text-[14px] " style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color: rgb(49,48,47);">Recent of {{selectedCar.number}}</span><br>
     <span class="absolute bottom-2 right-6 text-[11px] text-[#0f68a796]" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;" (click)="view(selectedCar.number)">See all</span>
   </div>
-  <div class="scroll-container !h-[46vh] flex justify-start gap-[7px] pt-[10px] flex-nowrap overflow-y-scroll px-6 flex-col">
+  <div class="scroll-container !h-[42vh] flex justify-start gap-[7px] pt-[10px] flex-nowrap overflow-y-scroll px-6 flex-col">
     <div *ngFor="let item of orderList.slice(orderList.length - 10,orderList.length).reverse(); let index = index;" style="min-width: 120px; min-height: 70px; background-color: rgb(255, 253, 251); border-radius: 10px; position: relative; ">
      <div  class="flex justify-between text-center">
        <div>

@@ -1,58 +1,3 @@
-<!-- <div *ngIf="!addNew && !isAvailabilityCheck" class="main"
-  style=" max-width: 100vw; max-height: 100svh; background-color: rgb(255, 255, 255);">
-  <div style="max-height: 30vh; overflow: hidden;">
-    <div
-      style="width: 100%; height: 90px; background-color: #FBF5BE; display: flex; justify-content: space-between; align-items: center; position: sticky;">
-      <div style="padding: 20px; display: flex; justify-content: flex-start; position: relative;">
-        <img style="margin-left: 15px; width: 25px; height:20px;"
-          src="https://cdn2.vectorstock.com/i/1000x1000/66/81/car-and-automotive-logo-vector-30896681.jpg" alt="">
-        <span
-          style="color: rgb(32, 30, 30); top: 23px; position: absolute; width: 200px; left: 68px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; font-weight: 600;">CAR
-          DEAL</span>
-      </div>
-      <div style="padding-right: 20px;">
-        <button (click)="addNewVehicle()"
-          style="background-color: white; border: none; height: 35px; padding: 5px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; padding: 10px; border-radius: 3px; font-size: 15px; font-weight: 600; ">Add
-          New Car +</button>
-      </div>
-    </div>
-  </div>
-  <h1 style=" font-size: 18px; margin-left: 20px; position: relative;" class="owner-greating">Hi, Rinshid
-    <button (click)="checkAvailability()"
-      style="position: absolute; right: 15px;  background-color:#FBF5BE; border: none; height: 35px; padding: 5px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; padding: 10px; border-radius: 3px; font-size: 15px; font-weight: 600; ">Check
-      availability</button>
-
-  </h1>
-
-
-  <div class="car-container" style="padding-right: 30px;">
-
-
-
-    <div class="cardsrr" *ngFor="let item of vehicleList.reverse()">
-
-
-      <div style="width: 93vw; height: 126px; background-color:#FBF5BE; border-radius: 7px; position: relative;">
-        <div style="display: flex; justify-content: end; margin-right: 10px; padding-top: 17px;">
-          <div style="width: 40px; height: 40px; border-radius: 50%;">
-            <i (click)="view(item.number)" class="fa fa-arrow-circle-right"
-              style=" font-size:35px; color:rgb(255, 255, 255);"></i>
-          </div>
-        </div>
-        <div style="display: flex; justify-content: flex-start; padding-top: 2px; margin-right: 19px;">
-          <div style=" height: 40px; margin-left: 20px; padding: 0px !important; ">
-            <span
-              style="font-size: 26px; color: rgb(53, 47, 47); font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; font-weight: 550;">{{item.name}}</span><br>
-            <span style="font-size: 17px; color: rgb(71, 67, 67);">{{item.model}}</span>
-            <span
-              style="position: absolute; top: 82px; right: 20px; font-size: 26px; color: rgb(63, 57, 57); font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; font-weight: 550;">{{item.number}}</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</div> -->
 
 <div *ngIf="addNew && !isAvailabilityCheck" class="frame"
   style="position: absolute; width: 100%; height: 100%;  border-radius: 15px;">
@@ -181,9 +126,9 @@
 </div>
   <div class="w-[100svw] h-[30svh] flex justify-center text-center pt-[61px]">
     <div style="width: 87svw; height:93%;  border-radius: 15px; position: relative;" class="selectedCard">
-      <span class="absolute top-4 right-4 text-[25px] font-bold" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{selectedCar.number}}</span><br>
-        <span class="absolute bottom-7 left-3  text-[25px] " style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{selectedCar.name}}</span><br>
-        <span class="absolute bottom-4 left-3 text-[16px] text-[#f1f1f196]" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{selectedCar.model}}</span>
+      <span class="absolute top-4 right-4 text-[25px] font-bold" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{selectedCar.number ? selectedCar.number : 'KL 10 A ####'}}</span><br>
+        <span class="absolute bottom-7 left-3  text-[25px] " style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{selectedCar.name ? selectedCar.name : 'CAR ####'}}</span><br>
+        <span class="absolute bottom-4 left-3 text-[16px] text-[#f1f1f196]" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{selectedCar.model ? selectedCar.model : '20##'}}</span>
         <span class="absolute bottom-4 right-4 text-[25px] font-bold" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
           <i (click)="view(selectedCar.number)" class="fa fa-arrow-circle-right"
         style=" font-size:35px; color:rgb(255, 255, 255);"></i>
@@ -195,6 +140,10 @@
     <span class="absolute bottom-2 right-6 text-[11px] text-[#0f68a796]" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">See all</span>
   </div>
   <div class="scroll-container flex justify-start gap-[15px] pt-[10px] flex-nowrap overflow-x-scroll px-6">
+     <div *ngIf="!vehicleList.length" style="min-width: 120px; height: 93%; border-radius: 10px; position: relative; " (click)="addNewVehicle()"  class="ag-courses_item add-Car">
+      <span class="absolute top-4 right-4 text-[25px] font-bold" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;"><i class="fa fa-plus"></i></span><br>
+      <span class="absolute bottom-6 left-3 text-[17px]" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Add car</span><br>
+   </div>
     <div *ngFor="let item of vehicleList.reverse()" style="min-width: 120px; height: 93%;  border-radius: 10px; position: relative; " (click)="carSelection(item)"  class="ag-courses_item">
       <!-- <span class="absolute top-4 right-4 text-[25px] font-bold" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;"><i class="fa fa-car"></i></span><br> -->
       <span class="absolute bottom-6 left-3 text-[17px]" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{item.name}}</span><br>

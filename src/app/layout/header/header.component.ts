@@ -10,7 +10,7 @@ export class HeaderComponent {
 
   addNew = true;
 
-  private router = inject(Router);
+  public router = inject(Router);
 
   @Output() valueChanged = new EventEmitter<string>();
   @Output() availabilityCheck = new EventEmitter<string>();
@@ -24,8 +24,11 @@ export class HeaderComponent {
   }
 
 
-  ionViewWillEnter(): void {
-    console.log(this.router.url);
+  ngOninit(): void {
+    this.router.events.subscribe((data) => {
+      console.log(data);
+      
+    })
   }
 
   goBack(){

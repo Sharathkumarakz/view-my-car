@@ -85,6 +85,7 @@
 
         <img style="width: 50vw; margin-top: 300px;" src="../../../assets/no-order.png" alt="">
       </div>
+      
       <div *ngIf="availableCars.length" class="car-container"
         style="padding-right: 30px; height: 61vh !important; margin-top: 2vh !important; padding-bottom: 60px;">
 
@@ -120,17 +121,17 @@
 
 
 <div *ngIf="!addNew && !isAvailabilityCheck">
-<div class="w-[100svw] h-[100svh] bg-[#f9f2f2] relative">
+<div class="w-[100svw] h-[100svh] bg-[#feecec] relative">
   <div>
   <app-header  (valueChanged)="addNewEvent($event)" (availabilityCheck)="checkAvailability()" class="absolute top-0"></app-header>
 </div>
   <div class="w-[100svw] h-[30svh] flex justify-center text-center pt-[61px]">
     <div style="width: 87svw; height:93%;  border-radius: 15px; position: relative;" class="selectedCard">
-      <span class="absolute top-4 right-4 text-[25px] font-bold" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{selectedCar.number ? selectedCar.number : 'KL 10 A ####'}}</span><br>
-        <span class="absolute bottom-7 left-3  text-[25px] " style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{selectedCar.name ? selectedCar.name : 'CAR ####'}}</span><br>
-        <span class="absolute bottom-4 left-3 text-[16px] text-[#f1f1f196]" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{selectedCar.model ? selectedCar.model : '20##'}}</span>
+      <span class="absolute top-4 right-4 text-[25px] font-bold" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{selectedCar?.number ? selectedCar?.number : 'KL 10 A ####'}}</span><br>
+        <span class="absolute bottom-7 left-3  text-[25px] " style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{selectedCar?.name ? selectedCar?.name : 'CAR ####'}}</span><br>
+        <span class="absolute bottom-3 left-3 text-[16px] text-[#f1f1f196]" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{selectedCar?.model ? selectedCar?.model : '20##'}}</span>
         <span class="absolute bottom-4 right-4 text-[25px] font-bold" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
-          <i (click)="view(selectedCar.number)" class="fa fa-arrow-circle-right"
+          <i (click)="view(selectedCar?.number)" class="fa fa-arrow-circle-right"
         style=" font-size:35px; color:rgb(255, 255, 255);"></i>
       </span>
     </div>
@@ -140,7 +141,7 @@
     <span class="absolute bottom-2 right-6 text-[11px] text-[#0f68a796]" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">See all</span>
   </div>
   <div class="scroll-container flex justify-start gap-[15px] pt-[10px] flex-nowrap overflow-x-scroll px-6">
-     <div *ngIf="!vehicleList.length" style="min-width: 120px; height: 93%; border-radius: 10px; position: relative; " (click)="addNewVehicle()"  class="ag-courses_item add-Car">
+     <div *ngIf="!vehicleList.length" style="min-width: 120px; height: 93%; border-radius: 10px; position: relative; " (click)="addNewVehicle()"  class="add-Car">
       <span class="absolute top-4 right-4 text-[25px] font-bold" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;"><i class="fa fa-plus"></i></span><br>
       <span class="absolute bottom-6 left-3 text-[17px]" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Add car</span><br>
    </div>
@@ -154,13 +155,16 @@
     <span class="absolute bottom-2 left-6  text-[14px] " style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color: rgb(49,48,47);">Recent of {{selectedCar.number}}</span><br>
     <span class="absolute bottom-2 right-6 text-[11px] text-[#0f68a796]" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;" (click)="view(selectedCar.number)">See all</span>
   </div>
-  <div class="scroll-container !h-[42vh] flex justify-start gap-[7px] pt-[10px] flex-nowrap overflow-y-scroll px-6 flex-col">
-    <div *ngFor="let item of orderList.slice(orderList.length - 10,orderList.length).reverse(); let index = index;" style="min-width: 120px; min-height: 70px; background-color: rgb(255, 253, 251); border-radius: 10px; position: relative; ">
+  <div class="scroll-container !h-[42vh] pb-[10vh] flex justify-start gap-[7px] pt-[10px] flex-nowrap overflow-y-scroll px-6 flex-col">
+    <div *ngIf="!orderList.length" style=" height: 60px; display:flex ; justify-content: center; align-items: center;">
+        <h1 class="mt-24 " style="color: rgb(53, 49, 49);">Empty list :)</h1>
+      </div>
+     <div *ngFor="let item of orderList.slice(orderList.length - splitValue,orderList.length).reverse(); let index = index;" style="min-width: 120px; min-height: 70px; background-color: rgb(255, 253, 251); border-radius: 10px; position: relative; ">
      <div  class="flex justify-between text-center">
        <div>
         <span class="absolute bottom-7 left-5 text-[12px]" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color: rgb(76, 72, 72);">{{index + 1}}</span>
         <span class="absolute bottom-10 left-16 text-[14px]" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color: rgb(36, 34, 34); font-weight: 600;">{{item.user}}</span><br>
-        <span class="absolute bottom-6 left-16 text-[12px] text-[#38363696]" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;  color: rgb(141, 138, 138);">{{item.car}}</span><br>
+        <span class="absolute bottom-6 left-16 text-[12px] text-[#38363696]" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;  color: rgb(141, 138, 138);">{{selectedCar?.number}}</span><br>
         <span class="absolute bottom-3 left-16 text-[12px] text-[#2d2a2a96]" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; ">{{item.startDate}} to {{item.endDate}}</span>
 
        </div>

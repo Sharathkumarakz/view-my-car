@@ -178,11 +178,11 @@
 </div> -->
 
 <div *ngIf="!addNew">
-<div class="w-[100svw] h-[100svh] bg-[#f9f2f2] relative">
+<div class="w-[100svw] h-[100svh] bg-[#feecec] relative">
   <div>
   <app-header  class="absolute top-0"></app-header>
 </div>
-  <div class="w-[100svw] h-[26svh] flex justify-center text-center pt-[61px]">
+  <div class="w-[100svw] h-[30svh] flex justify-center text-center pt-[61px]">
     <div style="width: 87svw; height:93%;  border-radius: 15px; position: relative;" class="selectedCard">
       <span class="absolute top-4 right-4 text-[25px] font-bold" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{carNumber}}</span><br>
         <span class="absolute bottom-7 left-3  text-[25px] " style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{carName}}</span><br>
@@ -203,14 +203,14 @@
     </div>
   </div>
   <div style="position: relative;" class="mt-[10px]">
-    <span class="absolute bottom-2 left-11  text-[14px] " style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color: rgb(49,48,47);">All Deals</span><br>
-    <span class="absolute bottom-2 right-11 " style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;"><i class="fa fa-refresh text-[20px] pl-[5px] pt-[5px]" (click)="getAllOrders()" style="color: rgb(40, 37, 37);" ></i></span>
+    <span class="absolute bottom-2 left-8  text-[14px] " style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color: rgb(49,48,47);">All Deals</span><br>
+    <span class="absolute bottom-2 right-8 " style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;"><i class="fa fa-refresh text-[20px] pl-[5px] pt-[5px]" (click)="getAllOrders()" style="color: rgb(40, 37, 37);" ></i></span>
 
   </div>
   <div class="flex gap-[7px] pt-[10px] pb-[15px] flex-nowrap overflow-y-scroll px-7 ">
     <div class="w-[76svw]">
        <input *ngIf="!textSearch" (keyup)="search($event)" [(ngModel)]="searchText" class="w-[76svw]" style="background-color: white; color: rgb(40, 37, 37); height: 37px; border-radius: 7px;" type="text" placeholder="Search.." name="search">
-      <input *ngIf="textSearch" type="date" class="w-[76svw]" style="background-color: white; color: rgb(40, 37, 37); height: 37px; border-radius: 7px;"  placeholder="Search.." name="search">
+      <input *ngIf="textSearch" (change)="onDateChange($event)" [(ngModel)]="searchDate" type="date" class="w-[76svw]" style="background-color: white; color: rgb(40, 37, 37); height: 37px; border-radius: 7px;"  placeholder="Search.." name="search">
 
     </div>
     <div class="flex-1">
@@ -219,15 +219,14 @@
 
     </div>
   </div>
-  <div class="scroll-container !h-[56vh] flex justify-start gap-[7px] pt-[5px] pb-[15px] flex-nowrap overflow-y-scroll px-6 flex-col">
+  <div class="scroll-container !h-[56vh]  flex justify-start gap-[7px] pt-[5px] pb-[10vh] flex-nowrap overflow-y-scroll px-6 flex-col">
     <div *ngFor="let item of orderList.reverse(); let index = index;" style="min-width: 120px; min-height: 70px; background-color: rgb(255, 253, 251); border-radius: 10px; position: relative; ">
       <div  class="flex justify-between text-center">
         <div>
          <span class="absolute bottom-7 left-5 text-[12px]" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color: rgb(76, 72, 72);">{{index + 1}}</span>
          <span class="absolute bottom-10 left-16 text-[14px]" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color: rgb(36, 34, 34); font-weight: 600;">{{item.user}}</span><br>
-         <span class="absolute bottom-6 left-16 text-[12px] text-[#38363696]" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;  color: rgb(141, 138, 138);">{{item.car}}</span><br>
+         <span class="absolute bottom-6 left-16 text-[12px] text-[#38363696]" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;  color: rgb(141, 138, 138);">{{carNumber}}</span><br>
          <span class="absolute bottom-3 left-16 text-[12px] text-[#2d2a2a96]" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; ">{{item.startDate}} to {{item.endDate}}</span>
- 
         </div>
         <div class="flex justify-between ">
         <div><i class="fa fa-edit !mt-7 mr-2" (click)="edit(item.id)" style="color: rgb(124, 153, 233);"></i> <i class="fa fa-trash mt-7 mr-5" (click)="remove(item.id)" style="color: rgb(234, 114, 114);"></i></div> 

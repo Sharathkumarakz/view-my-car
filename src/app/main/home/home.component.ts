@@ -18,7 +18,7 @@ export class HomeComponent  implements OnInit, ViewDidEnter {
   private toastController = inject(ToastController);
 
   
-  selectedCar:any;
+  selectedCar:any = null;
   orderList:any[] = [];
   allOrders:any[] = [];
 
@@ -27,7 +27,7 @@ export class HomeComponent  implements OnInit, ViewDidEnter {
   addNew = false;
   isAvailabilityCheck = false;
   availableCars:any[]=[];
-  
+  splitValue : number =0;
 
 
   ionViewDidEnter(): void {
@@ -69,10 +69,9 @@ export class HomeComponent  implements OnInit, ViewDidEnter {
   
   ngOnInit() {
     this.getAllCars();
-    this.getAllCars();
     this.initFormGroup();
     this.carSelection();
-    this.getAllOrders();
+    // this.getAllOrders();
   }
 
   addNewVehicle() {
@@ -116,6 +115,9 @@ export class HomeComponent  implements OnInit, ViewDidEnter {
   }
 
   view(num:string){
+    if(!num){
+      return;
+    }
     this.router.navigate(['/home/view',num]);
   }
 
@@ -127,30 +129,34 @@ export class HomeComponent  implements OnInit, ViewDidEnter {
     if(!this.availabilityForm.get('startDate').value && !this.availabilityForm.get('endDate').value){
       return
     }
+
+    if(!this.vehicleList){
+      return;
+    }
+    const unAvailableCars:string[] = [];
     this.vehicleList.forEach((data:any) => {
 
-     const orderList = JSON.parse(localStorage.getItem(`${this.selectedCar.number}`) as string) ? JSON.parse(localStorage.getItem(`${this.selectedCar.number}`) as string) : [];
+     const orderList = JSON.parse(localStorage.getItem(`${data.number}`) as string) ? JSON.parse(localStorage.getItem(`${data.number}`) as string) : [];
       if(orderList){
         orderList.forEach((item:any) => {
-          const unAvailableCars:string[] = [];
           const date2 = new Date(item.endDate);
           const date1 = new Date(item.startDate);
           const givenDate1Obj = new Date(this.availabilityForm.get('startDate').value ? this.availabilityForm.get('startDate').value : this.availabilityForm.get('endDate').value);
           const givenDate2Obj = new Date(this.availabilityForm.get('endDate').value ? this.availabilityForm.get('endDate').value :this.availabilityForm.get('startDate').value);
-          if ((givenDate1Obj < date1 && givenDate2Obj < date1) || (givenDate1Obj > date2 && givenDate2Obj > date2)) {
+          if ((givenDate1Obj >= date1 && givenDate2Obj >= date1) && (givenDate1Obj <= date2 && givenDate2Obj <= date2)) {
           } else {
             unAvailableCars.push(item.car);
           }
   
-          this.vehicleList.forEach((data:any) => {
-            if(!unAvailableCars.includes(data.id)){
-              this.availableCars.push(data);
-            }
-          })
-      });
+        });
       }
     })
     
+      this.vehicleList.forEach((data:any) => {
+        if(!unAvailableCars.includes(data.id)){
+          this.availableCars.push(data);
+        }
+      })
     if(!this.availableCars.length){
       this.availableCars = this.vehicleList;
       return;
@@ -163,33 +169,13 @@ export class HomeComponent  implements OnInit, ViewDidEnter {
   carSelection(item?:any){
     if(!item){
       this.selectedCar = this.vehicleList[this.vehicleList.length-1];
-      return;
+    } else {
+      this.selectedCar = item;
     }
-    this.selectedCar = item;
-    this.getAllOrders();
-  }
-
-
-
-  
-  getAllOrders(){
     this.orderList = JSON.parse(localStorage.getItem(`${this.selectedCar.number}`) as string) ? JSON.parse(localStorage.getItem(`${this.selectedCar.number}`) as string) : [];
-
-    this.orderList.forEach((details,indx) => {
-      this.vehicleList.forEach((cars:any) => {
-        if(cars.id == details.car){
-          this.orderList[indx].car = cars.number;
-        }
-      })
-  })
-
-  this.allOrders = this.orderList;
-
-    this.orderList = this.orderList.filter((data) => {
-       return data.car === this.selectedCar.number;
-    })
+    this.splitValue = this.orderList.length >= 10 ? 10 : this.orderList.length;
+    this.allOrders = this.orderList;
   }
-
 
   remove(num:string){
     this.presentAlert(num);
@@ -226,7 +212,9 @@ export class HomeComponent  implements OnInit, ViewDidEnter {
             })          
             localStorage.setItem(`${this.selectedCar.number}`, JSON.stringify(data));
             this.presentToast('top','Successfully deleted');
-            this.getAllOrders(); 
+            this.orderList = JSON.parse(localStorage.getItem(`${this.selectedCar.number}`) as string) ? JSON.parse(localStorage.getItem(`${this.selectedCar.number}`) as string) : [];
+            this.splitValue = this.orderList.length >= 10 ? 10 : this.orderList.length;
+            this.allOrders = this.orderList;
           },
         },
       ],

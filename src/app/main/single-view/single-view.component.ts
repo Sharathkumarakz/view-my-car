@@ -9,9 +9,9 @@ import { AlertController, ToastController } from '@ionic/angular';
   templateUrl: './single-view.component.html',
   styleUrls: ['./single-view.component.scss'],
 })
-export class SingleViewComponent implements OnInit, ViewDidEnter {
+export class SingleViewComponent implements ViewDidEnter {
   ionViewDidEnter(): void {
-    this.ngOnInit();
+    this.ngOnInit1();
   }
 
   private router = inject(Router);
@@ -37,10 +37,11 @@ export class SingleViewComponent implements OnInit, ViewDidEnter {
   cars: any[] = [];
   image!: string;
   searchText!: string;
+  searchDate!:string;
   allOrders: any[] = [];
   carId!: string;
 
-  ngOnInit() {
+  ngOnInit1() {
     this.aroute.params.subscribe((params) => {
       this.carNumber = params['id'];
     });
@@ -71,26 +72,28 @@ export class SingleViewComponent implements OnInit, ViewDidEnter {
   }
 
   getAllOrders() {
+    this.searchText = '';
+    this.searchDate = '';
     this.orderList = JSON.parse(
       localStorage.getItem(`${this.carNumber}`) as string
     )
       ? JSON.parse(localStorage.getItem(`${this.carNumber}`) as string)
       : [];
 
-    this.orderList.forEach((details, indx) => {
-      this.vehicleList.forEach((cars) => {
-        if (cars.id == details.car) {
-          if (cars.number == this.carNumber) {
-            this.carId = cars.id;
-          }
-          this.orderList[indx].car = cars.number;
-        }
-      });
-    });
+    // this.orderList.forEach((details, indx) => {
+    //   this.vehicleList.forEach((cars) => {
+    //     if (cars.id == details.car) {
+    //       if (cars.number == this.carNumber) {
+    //         this.carId = cars.id;
+    //       }
+    //       this.orderList[indx].car = cars.number;
+    //     }
+    //   });
+    // });
 
-    this.orderList = this.orderList.filter((data) => {
-      return data.car === this.carNumber;
-    });
+    // this.orderList = this.orderList.filter((data) => {
+    //   return data.car === this.carNumber;
+    // });
 
     this.allOrders = this.orderList;
   }
@@ -122,8 +125,7 @@ export class SingleViewComponent implements OnInit, ViewDidEnter {
       let order = this.orderList.filter((data) => {
         return data.id !== this.editId;
       });
-      console.log(order,this.editId);
-      
+
       if (!order) {
         order = [];
       }
@@ -132,7 +134,7 @@ export class SingleViewComponent implements OnInit, ViewDidEnter {
         endDate: this.userForm.get('eDate').value,
         startDate: this.userForm.get('sDate').value,
         user: this.userForm.get('customer').value,
-        id: order.length,
+        id: this.editId,
       };
       order.push(vehicle);
       localStorage.setItem(`${this.carNumber}`, JSON.stringify(order));
@@ -193,6 +195,8 @@ export class SingleViewComponent implements OnInit, ViewDidEnter {
       this.orderList = this.allOrders;
       return;
     }
+    console.log(this.allOrders);
+    
     this.orderList = this.allOrders.filter((data) => {
       const searchText = this.searchText.toLowerCase();
       const car = data?.car ? data.car.toLowerCase() : '';
@@ -254,14 +258,13 @@ export class SingleViewComponent implements OnInit, ViewDidEnter {
   }
 
   edit(num: string) {
-    console.log(num);
-    
     this.isEditMode = true;
     this.editId = num;
     this.addNew = !this.addNew;
-    const order = this.orderList.filter((data) => {
-      return data.id == num;
+    const order = this.orderList.reverse().filter((data) => {
+      return data.id === num;
     });
+
     this.userForm.patchValue({
       customer: order[0].user,
       sDate: order[0].startDate,
@@ -272,4 +275,25 @@ export class SingleViewComponent implements OnInit, ViewDidEnter {
   changeSearch() {
     this.textSearch = !this.textSearch;
   }
-}
+
+
+  onDateChange(event:any){
+      this.orderList = JSON.parse(localStorage.getItem(`${this.carNumber}`) as string) ? JSON.parse(localStorage.getItem(`${this.carNumber}`) as string) : [];
+     if(!this.searchDate){
+      return;
+     }
+      let searchResult: string[]= []
+       if(this.orderList){
+         this.orderList.forEach((item:any) => {
+           const date2 = new Date(item.endDate);
+           const date1 = new Date(item.startDate);
+           const searchDate = new Date(this.searchDate);
+           if (searchDate >= date1 && searchDate <= date2) {
+            searchResult.push(item);
+           }
+       });
+       }
+       this.orderList = searchResult;
+     }
+  }
+

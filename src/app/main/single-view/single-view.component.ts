@@ -1,8 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ViewDidEnter } from '@ionic/angular';
 import { AlertController, ToastController } from '@ionic/angular';
+import { Directory, Filesystem } from '@capacitor/filesystem';
 
 @Component({
   selector: 'app-single-view',
@@ -79,21 +80,6 @@ export class SingleViewComponent implements ViewDidEnter {
     )
       ? JSON.parse(localStorage.getItem(`${this.carNumber}`) as string)
       : [];
-
-    // this.orderList.forEach((details, indx) => {
-    //   this.vehicleList.forEach((cars) => {
-    //     if (cars.id == details.car) {
-    //       if (cars.number == this.carNumber) {
-    //         this.carId = cars.id;
-    //       }
-    //       this.orderList[indx].car = cars.number;
-    //     }
-    //   });
-    // });
-
-    // this.orderList = this.orderList.filter((data) => {
-    //   return data.car === this.carNumber;
-    // });
 
     this.allOrders = this.orderList;
   }
@@ -295,5 +281,21 @@ export class SingleViewComponent implements ViewDidEnter {
        }
        this.orderList = searchResult;
      }
+
+     async createAndDownloadPDF(){
+      await Filesystem.checkPermissions();
+      await Filesystem.requestPermissions();
+     
+      const fileResponseData = 'SGVsbG8sIFdvcmxkIQ=='
+
+      // Save PDF File to Documents Folder in the Phone
+      const writePdfFile = await Filesystem.writeFile({
+        path: 'report' + Date.now() + ".pdf",
+        data: fileResponseData,
+        directory: Directory.Documents,
+      });
+      
+
+    }
   }
 

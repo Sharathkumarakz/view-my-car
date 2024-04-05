@@ -225,4 +225,10 @@ export class HomeComponent  implements OnInit, ViewDidEnter {
   addNewEvent(value: string) {
     this.addNew = !this.addNew
   }
+
+  resetHome(){
+    this.ngOnInit();
+    this.addNew = false;
+    this.isAvailabilityCheck = false;
+  }
 }

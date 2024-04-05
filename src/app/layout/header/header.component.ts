@@ -14,6 +14,7 @@ export class HeaderComponent {
 
   @Output() valueChanged = new EventEmitter<string>();
   @Output() availabilityCheck = new EventEmitter<string>();
+  @Output() resetHome = new EventEmitter<string>();
 
   emitValue() {
     this.valueChanged.emit('addCar');
@@ -32,6 +33,7 @@ export class HeaderComponent {
   }
 
   goBack(){
+    this.resetHome.emit('reset')
     this.router.navigate(['/home']);
   }
 

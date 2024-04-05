@@ -108,7 +108,7 @@
 <div *ngIf="!addNew && !isAvailabilityCheck">
 <div class="w-[100svw] h-[100svh] bg-[#f9f2f2]  relative">
   <div>
-  <app-header  (valueChanged)="addNewEvent($event)" (availabilityCheck)="checkAvailability()" class="absolute top-0"></app-header>
+  <app-header (resetHome)="resetHome()"  (valueChanged)="addNewEvent($event)" (availabilityCheck)="checkAvailability()" class="absolute top-0"></app-header>
 </div>
   <div class="w-[100svw] h-[30svh] flex justify-center text-center pt-[61px]">
     <div style="width: 87svw; height:93%;  border-radius: 15px; position: relative;" class="selectedCard">

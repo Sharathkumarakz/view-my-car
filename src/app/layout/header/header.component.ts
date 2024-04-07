@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, inject } from '@angular/core';
+import { Component, Output, EventEmitter, inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,6 +15,8 @@ export class HeaderComponent {
   @Output() valueChanged = new EventEmitter<string>();
   @Output() availabilityCheck = new EventEmitter<string>();
   @Output() resetHome = new EventEmitter<string>();
+  @Input() showAdd : boolean = false;
+  @Input() showCheck : boolean = false;
 
   emitValue() {
     this.valueChanged.emit('addCar');

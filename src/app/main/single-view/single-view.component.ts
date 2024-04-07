@@ -3,7 +3,8 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ViewDidEnter } from '@ionic/angular';
 import { AlertController, ToastController } from '@ionic/angular';
-import { Directory, Filesystem } from '@capacitor/filesystem';
+// import { Directory, Filesystem } from '@capacitor/filesystem';
+import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-single-view',
@@ -181,16 +182,15 @@ export class SingleViewComponent implements ViewDidEnter {
       this.orderList = this.allOrders;
       return;
     }
-    console.log(this.allOrders);
-    
+
     this.orderList = this.allOrders.filter((data) => {
       const searchText = this.searchText.toLowerCase();
-      const car = data?.car ? data.car.toLowerCase() : '';
+      const car = data?.car ? data.car : '';
       const startDate = data?.startDate ? data.startDate.toLowerCase() : '';
       const endDate = data?.endDate ? data.endDate.toLowerCase() : '';
       const user = data?.user ? data.user.toLowerCase() : '';
       if (
-        car.includes(searchText) ||
+        car === searchText ||
         startDate.includes(searchText) ||
         endDate.includes(searchText) ||
         user.includes(searchText)
@@ -283,19 +283,87 @@ export class SingleViewComponent implements ViewDidEnter {
      }
 
      async createAndDownloadPDF(){
-      await Filesystem.checkPermissions();
-      await Filesystem.requestPermissions();
-     
-      const fileResponseData = 'SGVsbG8sIFdvcmxkIQ=='
+      // await Filesystem.checkPermissions();
+      // await Filesystem.requestPermissions();
 
+
+
+
+
+
+
+       
+    if(!this.orderList.length){
+      return;
+    }
+
+    const doc = new jsPDF();
+    const startY = 10;
+    const lineHeight = 7;
+    const cellPadding = 10; // Adjust for desired padding
+ 
+    // Document properties (consider including more details if relevant)
+    doc.setProperties({
+      title: 'Your Document Title', // Replace with your desired title
+      author: 'Your Name', // Replace with your name or organization
+    });
+ 
+    // Centering calculations (assuming all columns have same width)
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const tableWidth = (10 + (2 * cellPadding)) * 3; // Assuming 3 columns, adjust if needed
+    const tableOffsetX = (pageWidth - tableWidth) / 2;
+ 
+    // Font settings
+    doc.setFont('helvetica');
+    doc.setFontSize(12);
+ 
+    // Heading (larger font size and centered)
+    const headingFontSize = 16;
+    const date = new Date(Date.now());
+ 
+// Define the formatting options with type assertions
+const options: Intl.DateTimeFormatOptions = {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+ 
+};
+ 
+const humanReadableDate: string = date.toLocaleDateString('en-US', options);
+console.log(humanReadableDate);
+    const headingY = startY + (headingFontSize / 2); // Adjust Y position for centering
+    doc.setFontSize(headingFontSize);
+    doc.text( `${humanReadableDate} - Report`, tableOffsetX + (tableWidth / 2), headingY, { align: 'center' }); // Center-aligned heading
+ 
+    // Table headers
+    const headerX = [
+      tableOffsetX + 2 - 10,
+      tableOffsetX + 2 + (tableOffsetX/2),
+      tableOffsetX + 2 + tableOffsetX + 8,
+    ];
+    doc.text('Name', headerX[0], startY + headingFontSize + lineHeight );
+    doc.text('Date1', headerX[1], startY + headingFontSize + lineHeight);
+    doc.text('Date2', headerX[2], startY + headingFontSize + lineHeight);
+ 
+    // Set the data rows
+    this.orderList.forEach((item: any,index:number) => {
+      doc.text(item.user, headerX[0], startY + headingFontSize + lineHeight + 10 +(index*10));
+      doc.text(item.startDate, headerX[1], startY + headingFontSize + lineHeight + 10 +(index*10))
+      doc.text(item.endDate, headerX[2], startY + headingFontSize + lineHeight + 10 +(index*10))
+    });
+
+    const pdfDataUrl = doc.output('datauristring');
       // Save PDF File to Documents Folder in the Phone
-      const writePdfFile = await Filesystem.writeFile({
-        path: 'report' + Date.now() + ".pdf",
-        data: fileResponseData,
-        directory: Directory.Documents,
-      });
+      // const writePdfFile = await Filesystem.writeFile({
+      //   path: 'report' + Date.now() + ".pdf",
+      //   data: pdfDataUrl,
+      //   directory: Directory.Documents,
+      // });
       
-
+    //  console.log(writePdfFile);
+     
     }
   }
 

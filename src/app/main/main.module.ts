@@ -5,9 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MainRoutingModule } from './main-routing.module';
 import { HomeComponent } from './home/home.component';
 import { VehiclesComponent } from './vehicles/vehicles.component';
-import { BookingComponent } from './booking/booking.component';
 import { SingleViewComponent } from './single-view/single-view.component';
-import { OrdersComponent } from './orders/orders.component';
 import { HeaderComponent } from '../layout/header/header.component';
 
 
@@ -15,9 +13,7 @@ import { HeaderComponent } from '../layout/header/header.component';
   declarations: [
     HomeComponent,
     VehiclesComponent,
-    BookingComponent,
     SingleViewComponent,
-    OrdersComponent,
     HeaderComponent
   ],
   imports: [

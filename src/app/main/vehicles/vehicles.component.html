@@ -1,4 +1,4 @@
-<div class="frame " >
+<!-- <div class="frame " >
   <div style="width: 100%; height: 6%; background-color:  #626eac">
     <div style="width: 10vw; height: 100%;  display: flex; justify-content: center; align-items: center; ">
       <div style="margin-left: 30px; font-weight: 600; color: rgb(255, 255, 255);" (click)="goBack()">Back</div>
@@ -23,12 +23,12 @@
   <div style="width: 100%; height: 82vh; overflow-y: scroll;">
     <div *ngFor="let item of vehicleList" >
       <div class="card " style="height: 10%; width: 95%;">
-        <div class="card__wrapper" style="font-size: 14px; padding-right: 10px; padding-left: 10px;">
+        <div class="card__wrapper" style="font-size: 14px; padding-right: 10px; padding-left: 10px;"> -->
           <!-- <div class="card__img" style="flex: 1;">           
             <img *ngIf="item.image" style="min-width: 50%; height:75px; border-radius: 2%;" src="{{item.image}}" alt="">
             <img *ngIf="!item.image" style="min-width: 50%; height:75px; border-radius: 2%;" src="https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png" alt="">
           </div> -->
-          <div class="card__title " style="flex: 3; padding-left: 10px;">
+          <!-- <div class="card__title " style="flex: 3; padding-left: 10px;">
             <div class="card__wrapper" style="font-size: 14px;">
               <div class="card__subtitle5"style="font-size: 14px;" >{{item.name}}</div>
               <div class="card__subtitle-four5" style="color: green;">Availability</div>
@@ -62,7 +62,7 @@
     </div>
 
   </div>
-</div>
+</div>-->
 
 <div *ngIf="addNew" class="frame"
   style="position: absolute; width: 100%; height: 100%;  border-radius: 15px;">
@@ -77,12 +77,6 @@
       <div
         style="width:100%; height: 100%; display: flex; flex-direction: column; align-items: center; gap: 30px; margin-top: 50px;"
         class="shade">
-
-        <div class='full-input'><label for='name' style="color: rgb(53, 50, 50);">Image</label>
-          <input type='file' name='username' (change)="onFileSelected($event)"
-            style=" background-color: rgb(254, 254, 254);  height: 30px; width: 50vw; background-color: transparent;  border-radius: 8px; color: rgb(53, 50, 50);">
-        </div>
-
         <div class='full-input'><label for='name' style="color: rgb(53, 50, 50);">Name</label>
           <input type='text' name='username' formControlName="name"
             style="  height: 30px; width: 50vw; background-color: transparent;  border-radius: 8px;color: rgb(53, 50, 50);">
@@ -119,4 +113,41 @@
       </div>
     </div>
   </form>
+</div> 
+
+
+
+<div *ngIf="!addNew ">
+  <div class="w-[100svw] h-[100svh] bg-[#feecec] relative">
+    <div>
+    <app-header [showAdd]="true"  (valueChanged)="addNewVehicle()" class="absolute top-0"></app-header>
+  </div>
+  <div class="w-[100svw] flex justify-center text-center pt-[61px]">
+
+    
+  <div class="car-container"
+  style="height: 90vh !important; margin-top: 2vh !important; padding-bottom: 60px; overflow-y: scroll !important;">
+  <div class="w-[100svw] h-[7vh] flex justify-center text-center px-[8px]" >
+    <input
+      style="width: 90%; height: 80%; background-color: rgb(255, 255, 255); border-radius: 5px; color: rgb(39, 37, 37);"
+      placeholder="Search for vehicle.."  [(ngModel)]="searchText" (ngModelChange)="search($event)"  type="text">
+  </div>
+  <div *ngIf="!vehicleList.length" style=" height: 60px; display:flex ; justify-content: center; align-items: center;">
+    <img style="width: 50vw; margin-top: 300px;" src="../../../assets/no-order.png" alt="">
+    </div>
+  <div *ngFor="let item of vehicleList.reverse()" class="w-[100svw] h-[20svh] flex justify-center text-center "  >
+    <div style="width: 87svw; height:93%;  border-radius: 15px; position: relative;"  class="selectedCard">
+
+      <span class="absolute top-4 right-4 text-[25px] " style="font-family: fantasy; font-weight: 800px;">{{item?.number}}</span><br>
+      <span class="absolute bottom-7 left-3  text-[25px] " style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-weight: 800px;">{{item?.name}}</span><br>
+      <span class="absolute bottom-3 left-3 text-[16px] text-[#f1f1f196]" style="font-family:fantasy; font-weight: 800px;">{{item?.model}}</span>
+      <span class="absolute bottom-4 right-4 text-[25px] font-bold" style="font-family:fantasy; font-weight: 700px;">
+        <i (click)="view(item?.number)" class="fa fa-arrow-circle-right"
+      style=" font-size:35px; color:rgb(255, 255, 255);"></i>
+    </span>
+    </div>
+  </div>
+  </div>
 </div>
+  </div>
+  </div>

@@ -1,17 +1,24 @@
 import { Component, OnInit, inject} from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ViewDidEnter } from '@ionic/angular';
 
 @Component({
   selector: 'app-vehicles',
   templateUrl: './vehicles.component.html',
   styleUrls: ['./vehicles.component.scss'],
 })
-export class VehiclesComponent implements OnInit {
+export class VehiclesComponent implements OnInit, ViewDidEnter{
 
   private router = inject(Router);
   private fb = inject(FormBuilder);
   
+
+  
+  ionViewDidEnter(): void {
+    this.ngOnInit();
+  }
+
 
   carForm :any;
   addNew = false;
@@ -47,7 +54,7 @@ export class VehiclesComponent implements OnInit {
 
   getAllCars(){
     this.vehicleList = JSON.parse(localStorage.getItem('myCars') as string) ? JSON.parse(localStorage.getItem('myCars') as string) : [];
-    
+    this.allCars = this.vehicleList;
   }
 
   addNewVehicle() {
@@ -102,16 +109,26 @@ export class VehiclesComponent implements OnInit {
   }
 
 
-  search(text:KeyboardEvent){
+  search(text:any){
+    console.log('eventtt');
+    
     if(!this.searchText){
       this.getAllCars()
       return;
     }
+    console.log(this.allCars,this.searchText);
+    
     this.vehicleList = this.allCars.filter((data) => {
-        if(data?.color?.includes(this.searchText) || data?.name?.includes(this.searchText) || data?.model?.includes(this.searchText) || data?.number?.includes(this.searchText)){
+        if(data?.color.toUpperCase()?.includes(this.searchText.toUpperCase()) || data?.name?.toUpperCase().includes(this.searchText.toUpperCase()) || data?.model?.toUpperCase().includes(this.searchText.toUpperCase()) || data?.number?.toUpperCase().includes(this.searchText.toUpperCase())){
           return data;
         }
      })
   }
 
+  view(num:string){
+    if(!num){
+      return;
+    }
+    this.router.navigate(['/home/view',num]);
+  }
 }

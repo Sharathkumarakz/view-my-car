@@ -70,7 +70,7 @@
   <div class="flex gap-[7px] pt-[10px] pb-[15px] flex-nowrap overflow-y-scroll px-7 ">
     <div class="w-[76svw]">
        <input *ngIf="!textSearch" (keyup)="search($event)" [(ngModel)]="searchText" class="w-[76svw]" style="background-color: white; color: rgb(40, 37, 37); height: 37px; border-radius: 7px;" type="text" placeholder="Search.." name="search">
-      <input *ngIf="textSearch" (change)="onDateChange($event)" [(ngModel)]="searchDate" type="date" class="w-[76svw]" style="background-color: white; color: rgb(40, 37, 37); height: 37px; border-radius: 7px;"  placeholder="Search.." name="search">
+      <input *ngIf="textSearch" (ngModelChange)="onDateChange($event)" [(ngModel)]="searchDate" type="date" class="w-[76svw]" style="background-color: white; color: rgb(40, 37, 37); height: 37px; border-radius: 7px;"  placeholder="Search.." name="search">
 
     </div>
     <div class="flex-1">

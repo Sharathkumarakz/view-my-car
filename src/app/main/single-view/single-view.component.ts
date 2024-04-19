@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ViewDidEnter } from '@ionic/angular';
 import { AlertController, ToastController } from '@ionic/angular';
-// import { Directory, Filesystem } from '@capacitor/filesystem';
+import { Directory, Filesystem } from '@capacitor/filesystem';
 import jsPDF from 'jspdf';
 
 @Component({
@@ -283,8 +283,8 @@ export class SingleViewComponent implements ViewDidEnter {
      }
 
      async createAndDownloadPDF(){
-      // await Filesystem.checkPermissions();
-      // await Filesystem.requestPermissions();
+      await Filesystem.checkPermissions();
+      await Filesystem.requestPermissions();
 
 
 
@@ -355,14 +355,16 @@ console.log(humanReadableDate);
     });
 
     const pdfDataUrl = doc.output('datauristring');
+    console.log(pdfDataUrl);
+    
       // Save PDF File to Documents Folder in the Phone
-      // const writePdfFile = await Filesystem.writeFile({
-      //   path: 'report' + Date.now() + ".pdf",
-      //   data: pdfDataUrl,
-      //   directory: Directory.Documents,
-      // });
+      const writePdfFile = await Filesystem.writeFile({
+        path: 'report' + ".pdf",
+        data: pdfDataUrl,
+        directory: Directory.Documents,
+      });
       
-    //  console.log(writePdfFile);
+     console.log(writePdfFile);
      
     }
   }
